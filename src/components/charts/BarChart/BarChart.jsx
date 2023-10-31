@@ -1,17 +1,16 @@
 import { ResponsiveBar } from '@nivo/bar';
 
-const Barchart = ({ data, keys }) => (
+const BarChart = ({ data, keys }) => (
   <ResponsiveBar
     data={data}
     keys={keys}
     indexBy="type"
-    margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
-    padding={0.3}
+    margin={{ top: 10, right: 130, bottom: 30, left: 60 }}
     colors={{ scheme: 'nivo' }}
     theme={{
       labels: {
         text: {
-          fontSize: 14,
+          fontSize: 17,
           fill: '#000000',
         },
       },
@@ -35,11 +34,6 @@ const Barchart = ({ data, keys }) => (
           },
         },
       },
-      tooltip: {
-        basic: {
-          color: '#000000'
-        }
-      }
     }}
 
     legends={[
@@ -69,4 +63,4 @@ const Barchart = ({ data, keys }) => (
   />
 );
 
-export default Barchart;
+export default BarChart;
