@@ -1,16 +1,17 @@
 import { ResponsiveBar } from '@nivo/bar';
+import PropTypes from 'prop-types';
 
 const BarChart = ({ data, keys }) => (
   <ResponsiveBar
     data={data}
     keys={keys}
     indexBy="type"
-    margin={{ top: 10, right: 130, bottom: 30, left: 60 }}
+    margin={{ top: 10, right: 130, bottom: 30, left: 0 }}
     colors={{ scheme: 'nivo' }}
     theme={{
       labels: {
         text: {
-          fontSize: 17,
+          fontSize: 12,
           fill: '#000000',
         },
       },
@@ -29,12 +30,21 @@ const BarChart = ({ data, keys }) => (
         },
         ticks: {
           text: {
-            fontSize: 16,
+            fontSize: 14,
             fill: '#000000',
           },
         },
       },
     }}
+
+    label={{
+      hidden: true
+    }}
+
+    axisLeft={null}
+
+    enableGridY={false}
+    enableLabel={false}
 
     legends={[
       {
@@ -62,5 +72,10 @@ const BarChart = ({ data, keys }) => (
     ]}
   />
 );
+
+BarChart.propTypes = {
+  data: PropTypes.array, 
+  keys: PropTypes.arrayOf(PropTypes.string)
+}
 
 export default BarChart;

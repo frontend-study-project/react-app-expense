@@ -1,0 +1,12 @@
+.outcome__chart--bar {
+  width: 100%;
+  height: 200px;
+}
+
+.pie-chart.outcome {
+  width: 50%;
+}
+
+.pie-chart .outcome__chart--bar {
+  height: 350px;
+}

@@ -1,0 +1,16 @@
+.chart-radio {
+  width: 100%;
+  max-width: 1000px;
+  margin: 30px auto;
+}
+
+.chart-radio > div {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+  width: fit-content;
+}
+
+.chart-radio--raido {
+  font-size: 14px;
+}
