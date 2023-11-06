@@ -49,7 +49,7 @@ const Form = (props) => {
                       Add
                     </button>
                     <select>
-                      <option value={""}>카테고리 선택</option>
+                      <option value="default">카테고리 선택</option>
                       <option value={"식비"}>식비</option>
                       <option value={"쇼핑"}>쇼핑</option>
                       <option value={"취미"}>취미</option>
