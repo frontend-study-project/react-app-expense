@@ -1,0 +1,27 @@
+body{
+  background-color: #333;
+}
+.form__content{
+  padding: 1em;
+  background-color: #ae8ee8;
+  font-weight: 700;
+  border-radius: 7px;
+}
+.form__btn{
+  display: inline-block;
+  padding: 1em 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #380f5f;
+  color: #dfcdf0;
+  cursor: pointer;
+}
+.form__btn--category{
+  padding: 5px;
+  font-size: 12px;
+}
+.form__box{
+  display: block;
+  font-size: 14px;
+}
+
