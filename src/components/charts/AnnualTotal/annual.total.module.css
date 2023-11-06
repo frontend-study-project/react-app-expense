@@ -1,0 +1,57 @@
+.annual-total {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #cfcfcf;
+}
+
+.annual-total > div {
+  display: flex;
+  gap: 50px;
+}
+
+.annual-total__chart {
+  width: 60%;
+  height: 200px;
+}
+
+.annual-total__balance {
+  width: 40%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ddd;
+  border: 1px solid #c0c0c0;
+  border-radius: 2px;
+  padding: 20px;
+}
+
+.annual-total__balance div {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.annual-total__balance .annual-total__total-value::after {
+  content: '';
+  width: 80%;
+  border-bottom: 1px dashed #7a7a7a;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.annual-total__balance div span:first-child {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: #3a4f66;
+  font-weight: bold;
+}
+
+.annual-total__balance div span:last-child {
+  font-size: 16px;
+  color: #8a939f;
+  font-weight: bold;
+}

@@ -1,0 +1,11 @@
+.annual {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+.pie-chart {
+  display: flex;
+}

@@ -1,0 +1,15 @@
+.income {
+  margin-bottom: 30px;
+}
+
+.income__chart--bar {
+  width: 100%;
+}
+
+.pie-chart.income {
+  width: 50%;
+}
+
+.pie-chart.income .income__chart--bar {
+  height: 350px;
+}
