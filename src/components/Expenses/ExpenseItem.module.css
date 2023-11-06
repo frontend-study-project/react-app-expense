@@ -1,0 +1,88 @@
+.expense-item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0.8rem;
+    margin: 1rem 0.5rem;
+    background-color: #4b4b4b;
+}
+.expense-item:hover,
+.expense-item:focus {
+    scale: 1.01;
+}
+
+.expense-item__description {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.expense-item h2,
+.expense-item p {
+    font-size: 1.2rem;
+    flex: 1;
+    margin: 0;
+    color: white;
+}
+.expense-item h2 {
+    margin: 5px 0;
+}
+.expense-item p {
+    font-size: 0.6rem;
+    background: #4826b9;
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 3px;
+}
+
+.expense-item button[type="button"] {
+    cursor: pointer;
+}
+
+.expense-item__price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #a892ee;
+}
+
+.expense-item__btn-edit {
+    position: absolute;
+    bottom: 1.2rem;
+    right: 1rem;
+    color: #c3b4f3;
+    border: 1px solid #c3b4f3;
+    padding: 5px;
+    cursor: pointer;
+    background-color: transparent;
+}
+.expense-item__btn-edit:hover,
+.expense-item__btn-edit:focus {
+    background-color: #4826b9;
+    border-color: #4826b9;
+    color: #fff;
+}
+
+.expense-item__btn-delete {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.2rem;
+    font-size: 0;
+    border: none;
+    background-color: transparent;
+}
+.expense-item__btn-delete::before,
+.expense-item__btn-delete::after {
+    position: absolute;
+    content: "";
+    display: block;
+    width: 15px;
+    height: 1px;
+    background-color: #fff;
+}
+.expense-item__btn-delete::before{
+    transform: rotate(45deg);
+}
+.expense-item__btn-delete::after{
+    transform: rotate(-45deg);
+}
