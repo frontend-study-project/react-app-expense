@@ -1,21 +1,25 @@
-import React from "react";
-import './ExpenseItem.css'
-import Card from "../UI/Card.jsx";
+import PropTypes from 'prop-types';
+import styles from  './ExpenseItem.module.css'
 const ExpenseItem = (props) => {
 	return (
 		<li>
-			<Card className="expense-item">
-				<div className="expense-item__description">
+			<div className={styles['expense-item']}>
+				<div className={styles['expense-item__description']}>
 					<div>
 						<p>{props.category}</p>
 						<h2>{props.title}</h2>
 					</div>
-					<div className="expense-item__price">{`$${props.amount}`}</div>
-					<button className="expense-item__btn-edit" type="button">EDIT</button>
-					<button className="expense-item__btn-delete" type="button">DELETE</button>
+					<div className={styles['expense-item__price']}>{`$${props.amount}`}</div>
+					<button className={styles['expense-item__btn-edit']} type="button">EDIT</button>
+					<button className={styles['expense-item__btn-delete']} type="button">DELETE</button>
 				</div>
-			</Card>
+			</div>
 		</li>
 	)
+}
+ExpenseItem.propTypes = {
+	category: PropTypes.string,
+	title: PropTypes.string,
+	amount: PropTypes.number
 }
 export default ExpenseItem;

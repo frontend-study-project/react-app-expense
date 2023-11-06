@@ -1,5 +1,4 @@
-import React from "react";
-import './ExpensesList.css';
+import styles from './ExpensesList.module.css';
 import ExpenseItem from "./ExpenseItem.jsx";
 import ExpenseDate from "./ExpenseDate.jsx";
 
@@ -35,12 +34,11 @@ const ExpensesList = () => {
 		},
 	];
 	return (
-		<ul className="expenses-list">
+		<ul className={styles['expenses-list']}>
 			{DUMMY_EXPENSES.map((expense) => (
-				<div>
+				<div key={expense.id}>
 					<ExpenseDate date={expense.date} />
 					<ExpenseItem
-						key={expense.id}
 						id={expense.id}
 						category={expense.category}
 						title={expense.title}

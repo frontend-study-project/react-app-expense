@@ -1,13 +1,11 @@
-import React from 'react';
-import './Expenses.css';
+import styles from './Expenses.module.css';
 import ExpensesList from "./ExpensesList.jsx";
-import Card from "../UI/Card.jsx";
 
 const Expenses = () => {
 	return (
-		<Card className="expenses">
+		<div className={styles['expenses']}>
 			<ExpensesList />
-		</Card>
+		</div>
 	)
 }
 export default Expenses;
