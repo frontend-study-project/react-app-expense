@@ -1,17 +1,13 @@
+import React from "react";
 import BarChart from "../BarChart/BarChart";
 import ChartTitle from "../ChartTitle/ChartTitle";
 import PieChart from "../PieChart/PieChart";
 import styled from './outcome.module.css';
 import PropTypes from 'prop-types';
 
-const OutcomeChart = ({ chartType }) => {
-  const data = Array.from({ length: 12 }, (_, index) => ({
-    type: `${index + 1}월`,
-    "근로수입": parseInt(Math.random() * 100) + 10,
-    "비근로수입": parseInt(Math.random() * 100) + 10,
-    "기타수입": parseInt(Math.random() * 100) + 10
-  }));  
-  const keys = ["근로수입", "비근로수입", "기타수입"];
+const OutcomeChart = ({ chartType, item }) => {
+  const [data, setData] = React.useState([]);
+  const [keys, setKeys] = React.useState([]);
   const pieData = [
     {
       id: '근로수입',
@@ -25,7 +21,31 @@ const OutcomeChart = ({ chartType }) => {
       value: 150,
       "color": "hsl(72, 70%, 50%)"
     }
-  ]
+  ];
+
+  React.useEffect(() => {
+    const newKeys = new Set(item.map(({ category }) => category));
+    const newData = Array
+      .from({ length: 12 }, (_, i) => i + 1)
+      .map((month) => {
+        const newData = {};
+        const monthData = item
+          .filter(({ date }) => (date.getMonth() + 1) === month)
+          .reduce((acc, item) => {
+            const total = (acc[item.category] || 0) + item.amount
+            acc[item.category] = total;
+            return acc;
+          }, newData);
+        return {
+          type: `${month}월`,
+          ...monthData
+        }
+      });
+    
+    setData(newData);
+    setKeys([...newKeys]);
+  }, [item]);
+
 
   return (
     <div className={`${styled["outcome"]} ${chartType === 'pie' ? styled["pie-chart"] : ''}`}>
@@ -43,6 +63,7 @@ const OutcomeChart = ({ chartType }) => {
 
 OutcomeChart.propTypes = {
   chartType: PropTypes.string,
+  item: PropTypes.array,
 }
 
 export default OutcomeChart;
