@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import styled from './chart.title.module.css';
 
-const ChartTitle = ({ children }) => (
-  <h3 className={styled["chart-title"]}>{children}</h3>
+const ChartTitle = ({ children, className }) => (
+  <h3 className={`${styled["chart-title"]} ${className ? className : ''}`}>{children}</h3>
 );
 
 ChartTitle.propTypes = {
-  children: PropTypes.string
+  children: PropTypes.node,
+  className: PropTypes.string
 }
 
 export default ChartTitle;

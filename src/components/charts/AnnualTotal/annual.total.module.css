@@ -3,6 +3,15 @@
   border-bottom: 1px solid #cfcfcf;
 }
 
+.annual-total__title {
+  display: flex;
+  justify-content: space-between;;
+}
+
+.annual-total__title--year {
+  padding: 0 10px;
+}
+
 .annual-total > div {
   display: flex;
   gap: 50px;
