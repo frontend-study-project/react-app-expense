@@ -33,7 +33,7 @@ const AnnualTotal = ({ item, dateState, setDateState }) => {
       }
     ]);
     setBalance(total);
-    setBalancePercent(totalIncome / total)
+    setBalancePercent(total ? totalIncome / total : 0)
   }, [item]);
 
   const handleChange = (e) => {
