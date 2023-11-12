@@ -13,7 +13,7 @@ const AnnualIncomeExpenseChart = ({ item, dateState, setDateState }) => {
   React.useEffect(() => {
     const year = dateState || new Date().getFullYear();
     const newItems = item
-      .filter(({ date }) => date.getFullYear() === year);
+      .filter(({ date }) => date.getFullYear() === Number(year));
     setYearItems(newItems);
   }, [item, dateState]);
 
