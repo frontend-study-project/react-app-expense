@@ -8,44 +8,48 @@ import PropTypes from 'prop-types';
 const OutcomeChart = ({ chartType, item }) => {
   const [data, setData] = React.useState([]);
   const [keys, setKeys] = React.useState([]);
-  const pieData = [
-    {
-      id: '근로수입',
-      label: '근로수입',
-      value: 250,
-      "color": "hsl(124, 70%, 50%)"
-    },
-    {
-      id: '비근로수입',
-      label: '비근로수입',
-      value: 150,
-      "color": "hsl(72, 70%, 50%)"
-    }
-  ];
+  const [pieData, setPieData] = React.useState([]);
 
   React.useEffect(() => {
     const newKeys = new Set(item.map(({ category }) => category));
     const newData = Array
       .from({ length: 12 }, (_, i) => i + 1)
       .map((month) => {
-        const newData = {};
         const monthData = item
           .filter(({ date }) => (date.getMonth() + 1) === month)
           .reduce((acc, item) => {
             const total = (acc[item.category] || 0) + item.amount
             acc[item.category] = total;
             return acc;
-          }, newData);
+          }, {});
         return {
           type: `${month}월`,
           ...monthData
         }
       });
-    
+  
+    const pieData = Object
+      .entries(
+        newData
+          .reduce((acc, monthItem) => {
+            Object
+              .entries(monthItem)
+              .filter(([category]) => category !== 'type')
+              .forEach(([category, amout]) => {
+                acc[category] = (acc[category] || 0) + amout;
+              });
+            return acc;
+          }, {}))
+      .map(([category, amout]) => ({
+        id: category,
+        label: category,
+        value: amout,
+      }))
+
     setData(newData);
     setKeys([...newKeys]);
+    setPieData(pieData);
   }, [item]);
-
 
   return (
     <div className={`${styled["outcome"]} ${chartType === 'pie' ? styled["pie-chart"] : ''}`}>
@@ -54,7 +58,11 @@ const OutcomeChart = ({ chartType, item }) => {
         {chartType === 'bar' ? (
           <BarChart data={data} keys={keys} />
         ) : (
-          <PieChart data={pieData} />
+          <>
+            {
+              pieData.length ? <PieChart data={pieData} /> : <p className={styled["outcome__empty"]}>지출이 존재하지 않습니다.</p>
+            }
+          </>
         )}
       </div>
     </div>
