@@ -14,3 +14,10 @@
 .pie-chart.income .income__chart--bar {
   height: 350px;
 }
+
+.income__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}

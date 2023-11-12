@@ -33,8 +33,12 @@ const IncomeChart = ({ chartType }) => {
       <div className={styled["income__chart--bar"]}>
         {chartType === 'bar' ? (
           <BarChart data={data} keys={keys} />
-        ) : (
-          <PieChart data={pieData} />
+        ) :(
+          <>
+            {
+              pieData.length ? <PieChart data={pieData} /> : <p className={styled["income__empty"]}>수입이 존재하지 않습니다.</p>
+            }
+          </>
         )}
       </div>
     </div>
