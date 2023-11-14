@@ -1,55 +1,12 @@
-import React from "react";
 import BarChart from "../BarChart/BarChart";
 import ChartTitle from "../ChartTitle/ChartTitle";
 import PieChart from "../PieChart/PieChart";
 import styled from './outcome.module.css';
 import PropTypes from 'prop-types';
+import { useStatics } from "../../../hooks/useStatics";
 
 const OutcomeChart = ({ chartType, item }) => {
-  const [data, setData] = React.useState([]);
-  const [keys, setKeys] = React.useState([]);
-  const [pieData, setPieData] = React.useState([]);
-
-  React.useEffect(() => {
-    const newKeys = new Set(item.map(({ category }) => category));
-    const newData = Array
-      .from({ length: 12 }, (_, i) => i + 1)
-      .map((month) => {
-        const monthData = item
-          .filter(({ date }) => (date.getMonth() + 1) === month)
-          .reduce((acc, item) => {
-            const total = (acc[item.category] || 0) + item.amount
-            acc[item.category] = total;
-            return acc;
-          }, {});
-        return {
-          type: `${month}월`,
-          ...monthData
-        }
-      });
-  
-    const pieData = Object
-      .entries(
-        newData
-          .reduce((acc, monthItem) => {
-            Object
-              .entries(monthItem)
-              .filter(([category]) => category !== 'type')
-              .forEach(([category, amout]) => {
-                acc[category] = (acc[category] || 0) + amout;
-              });
-            return acc;
-          }, {}))
-      .map(([category, amout]) => ({
-        id: category,
-        label: category,
-        value: amout,
-      }))
-
-    setData(newData);
-    setKeys([...newKeys]);
-    setPieData(pieData);
-  }, [item]);
+  const { keys, data, pieData } = useStatics(item);
 
   return (
     <div className={`${styled["outcome"]} ${chartType === 'pie' ? styled["pie-chart"] : ''}`}>
