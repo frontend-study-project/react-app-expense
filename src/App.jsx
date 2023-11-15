@@ -40,11 +40,22 @@ function App() {
 
   const [item, setItem] = useState(DUMMY_EXPENSES);
 
+  const [isFormEdit, setIsFormEdit] = useState(false);
+
   return (
     <div>
-      <Form />
-      <AnnualIncomeExpenseChart item={item} dateState={dateState} setDateState={setDateState} />
-      <Expenses items={DUMMY_EXPENSES} />
+      <Form
+        item={item}
+        setItem={setItem}
+        isFormEdit={isFormEdit}
+        setIsFormEdit={setIsFormEdit}
+      />
+      <AnnualIncomeExpenseChart
+        item={item}
+        dateState={dateState}
+        setDateState={setDateState}
+      />
+      <Expenses items={item} setItem={setItem} setIsFormEdit={setIsFormEdit} />
     </div>
   );
 }
