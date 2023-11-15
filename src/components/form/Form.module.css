@@ -2,9 +2,9 @@ body{
   background-color: #333;
 }
 .form__content{
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 50rem;
+  max-width: 95%;
+  margin: 10px auto;
   padding: 1em;
   background-color: #ae8ee8;
   border-radius: 7px;
@@ -50,7 +50,9 @@ body{
 .form__box input, .form__box select{
   width: 200px;
   padding: 0.3em;
+  margin: 0;
   border-radius: 5px;
+  box-sizing: border-box;
   border: none;
 }
 .form__box--submit{
