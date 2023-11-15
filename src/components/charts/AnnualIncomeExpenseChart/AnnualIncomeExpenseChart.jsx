@@ -22,7 +22,7 @@ const AnnualIncomeExpenseChart = ({ item, dateState, setDateState }) => {
       <AnnualTotal item={yearItems} dateState={dateState} setDateState={setDateState} />
       <ChartRadio chartType={chartType} setChartType={setChartType} />
       <div className={`${chartType === 'pie' ? styled["pie-chart"] : ''}`}>
-        <IncomeChart chartType={chartType} />
+        <IncomeChart chartType={chartType} item={yearItems} />
         <OutcomeChart chartType={chartType} item={yearItems} />
       </div>
     </div>

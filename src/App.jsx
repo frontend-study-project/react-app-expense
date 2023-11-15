@@ -43,7 +43,7 @@ function App() {
   return (
     <div>
       <Form />
-      <AnnualIncomeExpenseChart />
+      <AnnualIncomeExpenseChart item={item} dateState={dateState} setDateState={setDateState} />
       <Expenses items={DUMMY_EXPENSES} />
     </div>
   );
