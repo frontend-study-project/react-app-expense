@@ -1,9 +1,12 @@
 .annual {
-  width: 100%;
-  max-width: 1000px;
+  width: 50rem;
+  max-width: 95%;
   margin: 0 auto;
+  padding: 1rem;
   padding-bottom: 30px;
   margin-bottom: 30px;
+  background-color: rgb(31, 31, 31);
+  color: #fff;
 }
 
 .pie-chart {

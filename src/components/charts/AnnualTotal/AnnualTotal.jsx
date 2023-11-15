@@ -1,29 +1,59 @@
+import React from "react";
 import BarChart from "../BarChart/BarChart";
 import ChartTitle from "../ChartTitle/ChartTitle";
 import styled from './annual.total.module.css';
+import PropTypes from 'prop-types';
 
-const AnnualTotal = () => {
-  const data = [
-    {
-      "type": "수입",
-      "수입": 10
-    },
-    {
-      "type": "지출",
-      "지출": 20
-    },
-    {
-      "type": "잔고",
-      "잔고": 10
-    }
-  ];
-  const keys = ["수입", "지출", "잔고"];
-  const balance = 200000;
-  const balancePercent = 20;
+const keys = ["수입", "지출", "잔고"];
+
+const AnnualTotal = ({ item, dateState, setDateState }) => {
+  const [data, setData] = React.useState([]);
+  const [balance, setBalance] = React.useState(0);
+  const [balancePercent, setBalancePercent] = React.useState(0);
+
+  React.useEffect(() => {
+    const totalExpense = item
+      .filter(({ category }) => !keys.includes(category))
+      .reduce((acc, { amount }) => acc + amount, 0);
+    const totalIncome = 0
+    const total = totalIncome - totalExpense;
+
+    setData([
+      {
+        type: "수입",
+        수입: totalIncome
+      },
+      {
+        type: "지출",
+        지출: totalExpense
+      },
+      {
+        type: "잔고",
+        잔고: total
+      }
+    ]);
+    setBalance(total);
+    setBalancePercent(total ? totalIncome / total : 0)
+  }, [item]);
+
+  const handleChange = (e) => {
+    setDateState(e.target.value);
+  };
 
   return (
     <div className={styled["annual-total"]}>
-      <ChartTitle>연도별 보기</ChartTitle>
+      <ChartTitle className={styled["annual-total__title"]}>
+        <span>연도별 보기</span>
+        <select className={styled["annual-total__title--year"]} value={dateState} onChange={handleChange}>
+          {
+            Array
+              .from({ length: 4 }, (_, index) => new Date().getFullYear() - index)
+              .map((year) => (
+                <option key={year}>{year}</option>
+              ))
+          }
+        </select>
+      </ChartTitle>
       <div>
         <div className={styled["annual-total__chart"]}>
           <BarChart data={data} keys={keys} />
@@ -42,5 +72,11 @@ const AnnualTotal = () => {
     </div>
   )
 };
+
+AnnualTotal.propTypes = {
+  item: PropTypes.array,
+  dateState: PropTypes.string,
+  setDateState: PropTypes.func,
+}
 
 export default AnnualTotal;

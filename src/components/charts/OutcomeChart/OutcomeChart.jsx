@@ -3,29 +3,10 @@ import ChartTitle from "../ChartTitle/ChartTitle";
 import PieChart from "../PieChart/PieChart";
 import styled from './outcome.module.css';
 import PropTypes from 'prop-types';
+import { useStatics } from "../../../hooks/useStatics";
 
-const OutcomeChart = ({ chartType }) => {
-  const data = Array.from({ length: 12 }, (_, index) => ({
-    type: `${index + 1}월`,
-    "근로수입": parseInt(Math.random() * 100) + 10,
-    "비근로수입": parseInt(Math.random() * 100) + 10,
-    "기타수입": parseInt(Math.random() * 100) + 10
-  }));  
-  const keys = ["근로수입", "비근로수입", "기타수입"];
-  const pieData = [
-    {
-      id: '근로수입',
-      label: '근로수입',
-      value: 250,
-      "color": "hsl(124, 70%, 50%)"
-    },
-    {
-      id: '비근로수입',
-      label: '비근로수입',
-      value: 150,
-      "color": "hsl(72, 70%, 50%)"
-    }
-  ]
+const OutcomeChart = ({ chartType, item }) => {
+  const { keys, data, pieData } = useStatics(item);
 
   return (
     <div className={`${styled["outcome"]} ${chartType === 'pie' ? styled["pie-chart"] : ''}`}>
@@ -34,7 +15,11 @@ const OutcomeChart = ({ chartType }) => {
         {chartType === 'bar' ? (
           <BarChart data={data} keys={keys} />
         ) : (
-          <PieChart data={pieData} />
+          <>
+            {
+              pieData.length ? <PieChart data={pieData} /> : <p className={styled["outcome__empty"]}>지출이 존재하지 않습니다.</p>
+            }
+          </>
         )}
       </div>
     </div>
@@ -43,6 +28,7 @@ const OutcomeChart = ({ chartType }) => {
 
 OutcomeChart.propTypes = {
   chartType: PropTypes.string,
+  item: PropTypes.array,
 }
 
 export default OutcomeChart;

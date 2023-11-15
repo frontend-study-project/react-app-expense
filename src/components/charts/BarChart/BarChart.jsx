@@ -12,26 +12,26 @@ const BarChart = ({ data, keys }) => (
       labels: {
         text: {
           fontSize: 12,
-          fill: '#000000',
+          fill: '#fff',
         },
       },
       legends: {
         text: {
           fontSize: 12,
-          fill: '#000000',
+          fill: '#fff',
         },
       },
       axis: {
         legend: {
           text: {
             fontSize: 20,
-            fill: '#000000',
+            fill: '#fff',
           },
         },
         ticks: {
           text: {
             fontSize: 14,
-            fill: '#000000',
+            fill: '#fff',
           },
         },
       },
