@@ -4,8 +4,8 @@ import ExpenseItem from "./ExpenseItem.jsx";
 import ExpenseDate from "./ExpenseDate.jsx";
 import { useEffect, useState } from "react";
 
-const ExpensesList = ({ items, setItem, setIsFormEdit }) => {
-  const [sortedItems, setSortedItems] = useState([]); 
+const ExpensesList = ({ items, setItem, setIsFormEdit, setIsFormAdd }) => {
+  const [sortedItems, setSortedItems] = useState([]);
 
   // 1. 부모로부터 setItem 받아오기 - O
   // 2. 자식에서 handleDeleteItem를 호출하며 id 받아오기
@@ -44,6 +44,7 @@ const ExpensesList = ({ items, setItem, setIsFormEdit }) => {
               amount={expense.amount}
               handleDeleteItem={handleDeleteItem}
               setIsFormEdit={setIsFormEdit}
+              setIsFormAdd={setIsFormAdd}
             />
           ))}
         </div>
@@ -56,6 +57,7 @@ ExpensesList.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   setItem: PropTypes.func,
   setIsFormEdit: PropTypes.func,
+  setIsFormAdd: PropTypes.func,
 };
 
 export default ExpensesList;

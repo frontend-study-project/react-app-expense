@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import PropTypes from "prop-types";
 import "./App.css";
 import Expenses from "./components/Expenses/Expenses.jsx";
 import Form from "./components/form/Form.jsx";
@@ -8,6 +9,7 @@ function App() {
   const DUMMY_EXPENSES = [
     {
       id: "e1",
+      type: "outcome", // type 추가
       category: "쇼핑",
       title: "Toilet Paper",
       amount: 94.12,
@@ -15,6 +17,7 @@ function App() {
     },
     {
       id: "e2",
+      type: "outcome",
       category: "쇼핑",
       title: "New TV",
       amount: 799.49,
@@ -22,6 +25,7 @@ function App() {
     },
     {
       id: "e3",
+      type: "outcome",
       category: "보험",
       title: "Car Insurance",
       amount: 294.67,
@@ -29,6 +33,7 @@ function App() {
     },
     {
       id: "e4",
+      type: "outcome",
       category: "쇼핑",
       title: "New Desk (Wooden)",
       amount: 450,
@@ -40,6 +45,9 @@ function App() {
 
   const [item, setItem] = useState(DUMMY_EXPENSES);
 
+  // Add New Expense
+  const [isFormAdd, setIsFormAdd] = useState(false);
+
   const [isFormEdit, setIsFormEdit] = useState(false);
 
   return (
@@ -49,15 +57,25 @@ function App() {
         setItem={setItem}
         isFormEdit={isFormEdit}
         setIsFormEdit={setIsFormEdit}
+        isFormAdd={isFormAdd}
+        setIsFormAdd={setIsFormAdd}
       />
       <AnnualIncomeExpenseChart
         item={item}
         dateState={dateState}
         setDateState={setDateState}
       />
-      <Expenses items={item} setItem={setItem} setIsFormEdit={setIsFormEdit} />
+      <Expenses
+        items={item}
+        setItem={setItem}
+        setIsFormEdit={setIsFormEdit}
+        setIsFormAdd={setIsFormAdd}
+      />
     </div>
   );
 }
+// App.propTypes = {
+//   isFormEdit: PropTypes.bool,
+// };
 
 export default App;

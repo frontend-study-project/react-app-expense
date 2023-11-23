@@ -6,6 +6,7 @@ const ExpenseItem = (props) => {
   };
   const handleEdit = () => {
     props.setIsFormEdit(props.id);
+    props.setIsFormAdd(true);
   };
   return (
     <li>
@@ -44,5 +45,6 @@ ExpenseItem.propTypes = {
   amount: PropTypes.number,
   handleDeleteItem: PropTypes.func,
   setIsFormEdit: PropTypes.func,
+  setIsFormAdd: PropTypes.func,
 };
 export default ExpenseItem;

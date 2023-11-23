@@ -7,15 +7,18 @@ import PropTypes from "prop-types";
 // 2. 해당 id를 가진 아이템의 category, title, amount, date를 Form.jsx에 뿌린다
 // 3. 수정된 form에 있는 데이터들을 다시 가져와서 리스트로 뿌려준다
 
-const Form = ({ item, setItem, isFormEdit, setIsFormEdit }) => {
+const Form = ({
+  item,
+  setItem,
+  isFormEdit,
+  setIsFormEdit,
+  isFormAdd,
+  setIsFormAdd,
+}) => {
   const categoryRef = useRef(null);
   const titleRef = useRef(null);
   const amountRef = useRef(null);
   const dateRef = useRef(null);
-
-  // Add New Expense
-  const [isFormAdd, setIsFormAdd] = useState(false);
-  const toggleIsFormAdd = () => setIsFormAdd(!isFormAdd);
 
   // Category Change
   const [isCategoryEdit, setIsCategoryEdit] = useState(false);
@@ -45,6 +48,7 @@ const Form = ({ item, setItem, isFormEdit, setIsFormEdit }) => {
   };
 
   const initialState = {
+    type: "income",
     category: "",
     title: "",
     amount: 0,
@@ -86,6 +90,7 @@ const Form = ({ item, setItem, isFormEdit, setIsFormEdit }) => {
       ...prev,
       {
         id: crypto.randomUUID(),
+        type: expenseState.type,
         category: expenseState.category,
         title: expenseState.title,
         amount: Number(expenseState.amount),
@@ -131,12 +136,39 @@ const Form = ({ item, setItem, isFormEdit, setIsFormEdit }) => {
     setExpenseState(initialState);
   };
 
+  const toggleIsFormAdd = () => setIsFormAdd(!isFormAdd);
+
   return (
     <div className={styled.form__content}>
       {isFormAdd ? (
         <>
           <form id="expenseForm" className="form">
             <div className={styled["form__box"]}>
+              <div
+                className={styled["form__box--type"]}
+                role="radiogroup"
+                aria-labelledby="typeTitle"
+              >
+                <strong id="typeTitle">거래구분</strong>
+                <input
+                  type="radio"
+                  id="income"
+                  name="type"
+                  value="income"
+                  onChange={handleChangeState}
+                  checked={expenseState.type === "income"}
+                />
+                <label htmlFor="income">수입</label>
+                <input
+                  type="radio"
+                  id="outcome"
+                  name="type"
+                  value="outcome"
+                  onChange={handleChangeState}
+                  checked={expenseState.type === "outcome"}
+                />
+                <label htmlFor="outcome">지출</label>
+              </div>
               <div className={styled["form__box--category"]}>
                 {isCategoryEdit ? (
                   <>
@@ -297,6 +329,8 @@ Form.propTypes = {
   setItem: PropTypes.func,
   isFormEdit: PropTypes.string,
   setIsFormEdit: PropTypes.func,
+  isFormAdd: PropTypes.bool,
+  setIsFormAdd: PropTypes.func,
 };
 
 export default Form;

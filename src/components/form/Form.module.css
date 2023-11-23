@@ -55,6 +55,22 @@ body{
   box-sizing: border-box;
   border: none;
 }
+
+.form__box .form__box--type{
+  display: block;
+}
+.form__box .form__box--type strong{
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form__box .form__box--type input{
+  width: auto;
+}
+.form__box .form__box--type label{
+  padding: 0 5px 0 3px;
+}
+
 .form__box--submit{
   display: flex;
   justify-content: flex-end;
