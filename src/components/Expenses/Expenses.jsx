@@ -17,5 +17,6 @@ const Expenses = ({ items, setItem, setIsFormEdit }) => {
 Expenses.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
   setItem: PropTypes.func,
+  setIsFormEdit: PropTypes.func,
 };
 export default Expenses;
