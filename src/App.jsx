@@ -4,6 +4,7 @@ import "./App.css";
 import Expenses from "./components/Expenses/Expenses.jsx";
 import Form from "./components/form/Form.jsx";
 import AnnualIncomeExpenseChart from "./components/charts/AnnualIncomeExpenseChart/AnnualIncomeExpenseChart.jsx";
+import Pagination from "./components/pagination/Pagination.jsx";
 
 function App() {
   const DUMMY_EXPENSES = [
@@ -46,9 +47,13 @@ function App() {
   const [item, setItem] = useState(DUMMY_EXPENSES);
 
   // Add New Expense
-  const [isFormAdd, setIsFormAdd] = useState(false);
 
+	const [isFormAdd, setIsFormAdd] = useState(false);
   const [isFormEdit, setIsFormEdit] = useState(false);
+
+	// pagination
+	const [postPerPage, setPostPerPage] = useState(3); //페이지당 글갯수
+	const [currentPage, setCurrentPage] = useState(1); //현재 페이지
 
   return (
     <div>
@@ -71,6 +76,12 @@ function App() {
         setIsFormEdit={setIsFormEdit}
         setIsFormAdd={setIsFormAdd}
       />
+			<Pagination
+				total={item.length}
+				postPerPage={postPerPage}
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
+			/>
     </div>
   );
 }
