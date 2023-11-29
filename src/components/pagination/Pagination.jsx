@@ -23,11 +23,15 @@ const Pagination = (props) => {
 	const prePage = () => {
 		if(props.currentPage !== pageNumbers[0]) {
 			props.setCurrentPage(props.currentPage - 1)
+		}else{
+			alert("첫번째 페이지입니다")
 		}
 	}
 	const nextPage = () => {
 		if(props.currentPage !== pageNumbers.at(-1)) {
 			props.setCurrentPage(props.currentPage + 1)
+		}else{
+			alert("마지막 페이지입니다")
 		}
 	}
 
