@@ -9,17 +9,17 @@ const Pagination = (props) => {
 	}
 	const pageClick = (data) => {
 		props.setCurrentPage(data);
-		console.log(props.currentPage)
 	}
 	const result = pageNumbers.map((data) => (
 			<span
 				key={data}
-				className={styled["pagination__number"]}
+				className={`${styled["pagination__number"]} ${data === props.currentPage ? styled["pagination__number-active"] : "" }`}
 				onClick={() => pageClick(data)}
 			>
 				{data}
 			</span>
 		));
+
 
 	return (
 		<div className={styled["pagination"]}>
@@ -35,6 +35,7 @@ Pagination.propTypes = {
 	postPerPage: PropTypes.number,
 	total: PropTypes.number,
 	endPage: PropTypes.number,
+	currentPage: PropTypes.number,
 	setCurrentPage: PropTypes.func
 };
 export default Pagination;
