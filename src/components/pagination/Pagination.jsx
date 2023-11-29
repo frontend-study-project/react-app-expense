@@ -20,13 +20,28 @@ const Pagination = (props) => {
 			</span>
 		));
 
+	const prePage = () => {
+		if(props.currentPage !== pageNumbers[0]) {
+			props.setCurrentPage(props.currentPage - 1)
+		}
+	}
+	const nextPage = () => {
+		if(props.currentPage !== pageNumbers.at(-1)) {
+			props.setCurrentPage(props.currentPage + 1)
+		}
+	}
+
 
 	return (
 		<div className={styled["pagination"]}>
 			<div className={styled["pagination__content"]}>
 				<div>페이지당 갯수: {props.postPerPage}</div>
 				<div>총 글 갯수: {props.total}</div>
-				<div>{result}</div>
+				<div>
+					<span className={styled["pagination__prev"]} onClick={prePage}>prev</span>
+					{result}
+					<span className={styled["pagination__next"]} onClick={nextPage}>next</span>
+				</div>
 			</div>
 		</div>
 	)
