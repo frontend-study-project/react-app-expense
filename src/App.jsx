@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 // import PropTypes from "prop-types";
 import "./App.css";
 import Expenses from "./components/Expenses/Expenses.jsx";
@@ -54,8 +54,18 @@ function App() {
 	// pagination
 	const [postPerPage, setPostPerPage] = useState(3); //페이지당 글갯수
 	const [currentPage, setCurrentPage] = useState(1); //현재 페이지
+	const [currentPageItem, setCurrentPageItem] = useState([]);
+	useEffect(() => {
+		// 현재페이지에 표시할 시작인덱스와 끝인덱스
+		// 0,1,2 -> 1페이지
+		// 3,4,5 -> 2페이지
+		// 6,7,8 -> 3페이지
+		const startIndex = (currentPage - 1) * postPerPage;
+		const endIndex = startIndex + postPerPage;
+		setCurrentPageItem(item.slice(startIndex, endIndex));
+	}, [currentPage, item, postPerPage]);
 
-  return (
+	return (
     <div>
       <Form
         item={item}
@@ -71,7 +81,7 @@ function App() {
         setDateState={setDateState}
       />
       <Expenses
-        items={item}
+        items={currentPageItem}
         setItem={setItem}
         setIsFormEdit={setIsFormEdit}
         setIsFormAdd={setIsFormAdd}
