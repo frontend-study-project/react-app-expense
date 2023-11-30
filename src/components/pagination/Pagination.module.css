@@ -9,6 +9,7 @@
     line-height: 30px;
     background-color: #fff;
     cursor: pointer;
+    border: 1px solid #4b4b4b;
 }
 .pagination__number-active {
     background-color: #380f5f;
@@ -18,6 +19,7 @@
 .pagination__next {
     color: #fff;
     vertical-align: middle;
+    cursor: pointer;
 }
 .pagination__prev {
     margin-right: 5px;
