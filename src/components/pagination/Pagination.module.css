@@ -27,3 +27,9 @@
 .pagination__next {
     margin-left: 5px;
 }
+.pagination__current {
+    display: inline-block;
+    color: #fff;
+    font-size: 12px;
+    margin-top: 10px;
+}
