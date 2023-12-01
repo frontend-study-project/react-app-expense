@@ -45,20 +45,11 @@ function App() {
 
   const [item, setItem] = useState(DUMMY_EXPENSES);
 
-  // Add New Expense
-  const [isFormAdd, setIsFormAdd] = useState(false);
-
-  const [isFormEdit, setIsFormEdit] = useState(false);
-
   return (
     <div>
       <Form
         item={item}
         setItem={setItem}
-        isFormEdit={isFormEdit}
-        setIsFormEdit={setIsFormEdit}
-        isFormAdd={isFormAdd}
-        setIsFormAdd={setIsFormAdd}
       />
       <AnnualIncomeExpenseChart
         item={item}
@@ -68,8 +59,6 @@ function App() {
       <Expenses
         items={item}
         setItem={setItem}
-        setIsFormEdit={setIsFormEdit}
-        setIsFormAdd={setIsFormAdd}
       />
     </div>
   );
