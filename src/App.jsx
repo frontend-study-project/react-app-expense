@@ -41,8 +41,6 @@ function App() {
     },
   ];
 
-  const [dateState, setDateState] = useState("");
-
   const [item, setItem] = useState(DUMMY_EXPENSES);
 
   return (
@@ -53,8 +51,6 @@ function App() {
       />
       <AnnualIncomeExpenseChart
         item={item}
-        dateState={dateState}
-        setDateState={setDateState}
       />
       <Expenses
         items={item}
