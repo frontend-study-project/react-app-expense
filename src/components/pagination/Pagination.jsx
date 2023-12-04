@@ -23,22 +23,9 @@ const Pagination = ({total, postPerPage, setCurrentPage, currentPage}) => {
 	const pageClick = (data) => {
 		setCurrentPage(data);
 	}
-	const result = pageNumbers.map((data) => (
-		<span
-			key={data}
-			className={`${styled["pagination__number"]} ${data === currentPage ? styled["pagination__number-active"] : "" }`}
-			onClick={() => pageClick(data)}
-		>
-			{data}
-		</span>
-	));
-
 
 	const prePage = () => {
-		if(currentPage !== pageNumbers[0]) {
-			setCurrentPage(currentPage - 1)
-		} else if(currentPageGroup > 1){
-			// 현재 페이지가 그룹의 첫 페이지이면서 그룹이 첫 번째 그룹이 아닌 경우에만 이전 그룹으로 이동
+		if(currentPage !== pageNumbers[0] || currentPageGroup > 1) {
 			setCurrentPage(currentPage - 1)
 		} else{
 			alert("첫번째 페이지입니다")
@@ -58,7 +45,17 @@ const Pagination = ({total, postPerPage, setCurrentPage, currentPage}) => {
 				<div>총 글 갯수: {total}</div>
 				<div>
 					<SlArrowLeft className={`${styled["pagination__prev"]} ${currentPage === 1? styled["pagination__prev-grey"] : ""}`} onClick={prePage} />
-					{result}
+					{
+						pageNumbers.map((data) => (
+							<span
+								key={data}
+								className={`${styled["pagination__number"]} ${data === currentPage ? styled["pagination__number-active"] : "" }`}
+								onClick={() => pageClick(data)}
+							>
+								{data}
+							</span>
+						))
+					}
 					<SlArrowRight className={`${styled["pagination__next"]} ${currentPage === endPage? styled["pagination__prev-grey"] : ""}`} onClick={nextPage} />
 				</div>
 				<div className={styled["pagination__current"]}>
