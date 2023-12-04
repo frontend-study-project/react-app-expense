@@ -52,7 +52,7 @@ function App() {
   const [isFormEdit, setIsFormEdit] = useState(false);
 
 	// pagination
-	const [postPerPage, setPostPerPage] = useState(3); //페이지당 글갯수
+	const postPerPage = 3; //페이지당 글갯수
 	const [currentPage, setCurrentPage] = useState(1); //현재 페이지
 	const [currentPageItem, setCurrentPageItem] = useState([]);
 	useEffect(() => {

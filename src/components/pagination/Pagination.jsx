@@ -52,8 +52,6 @@ const Pagination = ({total, postPerPage, setCurrentPage, currentPage}) => {
 		}
 	}
 
-	console.log(currentPage)
-
 	return (
 		<div className={styled["pagination"]}>
 			<div className={styled["pagination__content"]}>
