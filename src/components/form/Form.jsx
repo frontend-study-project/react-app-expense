@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "./Form.module.css";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsFormEdit, setIsFormAdd } from "../../store/form";
+import { localStorageChanger } from '../item/Item.js';
 
 // 0. Add Expense 버튼을 Edit 버튼으로 수정해주기 (옆에 cancle 버튼도!)
 // 1. edit 버튼을 눌렀을 때 해당하는 아이템의 id 값을 가져온다
@@ -12,13 +11,11 @@ import { setIsFormEdit, setIsFormAdd } from "../../store/form";
 const Form = ({
   item,
   setItem,
+  isFormEdit,
+  setIsFormEdit,
+  isFormAdd,
+  setIsFormAdd,
 }) => {
-  const { isFormAdd, isFormEdit } = useSelector(({ form }) => ({
-    isFormAdd: form.isFormAdd,
-    isFormEdit: form.isFormEdit
-  }));
-  const dispatcch = useDispatch();
-
   const categoryRef = useRef(null);
   const titleRef = useRef(null);
   const amountRef = useRef(null);
@@ -60,6 +57,7 @@ const Form = ({
   };
 
   const [expenseState, setExpenseState] = useState(initialState);
+
   const handleChangeState = (e) => {
     setExpenseState({
       ...expenseState,
@@ -89,29 +87,35 @@ const Form = ({
       return;
     }
 
-    // 1. App.jsx에서 item을 불러오지 않고 setItem으로만 불러오는 방법
-    setItem((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID(),
-        type: expenseState.type,
-        category: expenseState.category,
-        title: expenseState.title,
-        amount: Number(expenseState.amount),
-        date: new Date(expenseState.date),
-      },
-    ]);
+		const newItem = {
+					id: crypto.randomUUID(),
+					type: expenseState.type,
+					category: expenseState.category,
+					title: expenseState.title,
+					amount: Number(expenseState.amount),
+					date: new Date(expenseState.date),
+		}
 
-    // 2. App.jsx에서 item을 가져온뒤 아래와 같이 setItem 하는 방법
-    // setItem({
-    //   id: crypto.randomUUID(),
-    //   category: expenseState.category,
-    //   title: expenseState.title,
-    //   amount: expenseState.amount,
-    //   date: new Date(expenseState.date),
-    // });
+    const storedItems = localStorageChanger();
+    //    // 아 이건 items.js에서 하면 될거 같아요/
+    // 어차피 localstore에서 가져온 값은 항상    // 네! 맞아요네~
+    // 방금 만든 함수는 일반 자바스크립트 함수 이기 때문에 export 했을 당시의 변수명을 import 해서 호출하면 될거에요
+    //변수는 그대로 저장해도 될거같아요저 함수를 호출한 반환값을 저장하는 storedItems 어차피 동일한 값을 저장하는 의미를 두고 있기 때문에
+    // 그럼 이제 여기 코드는 더 이상 작업 안해도 되고 item.js 에서
+    // 로컬스토리지에서 items를 가져오는 작업은 다른 파일에서도 사용이 될 수도 있을 거 같아서 여기 말고 공용으로 사용할 수 있는 파일을 하나 만든 후에
+    // 해당 파일에서 items를 가져하는 함수를 만들고 JSON.parse(localStorage.getItem("items")) || []; 코드를 옮겨주면 될거 같아요.
+    // 그리고 storedItems를 즉시 반환하지 않고 date은 문자열이기 때문에 Date 타입으로 변경!
+    // 1. 로컬 스토리지에서 items를 가져오는 파일 만들고 파일안에 함수 만들기.
+    // 2. 함수 안에 JSON.parse(localStorage.getItem("items")) || []; 코드 옮기기
+    // 3. JSON.parse 메서드 호출한 값을 반복문을 돌려서 date 속성의 값을 문자열 -> Date 로 변경!
+    const updatedItems = [...storedItems, newItem];
+		localStorage.setItem("items", JSON.stringify(updatedItems));
 
-    setExpenseState(initialState);
+		console.log(newItem, ...updatedItems)
+
+		// 화면에 추가
+		setItem(updatedItems);
+		setExpenseState(initialState);
   };
 
   useEffect(() => {
@@ -136,13 +140,13 @@ const Form = ({
       })
     );
 
-    dispatcch(setIsFormEdit(false));
+    setIsFormEdit(false); // 해주지않으면 useEffect에서 또들어감
     setExpenseState(initialState);
   };
 
-  const toggleIsFormAdd = () => dispatcch(setIsFormAdd(!isFormAdd));
+  const toggleIsFormAdd = () => setIsFormAdd(!isFormAdd);
 
-  return (
+	return (
     <div className={styled.form__content}>
       {isFormAdd ? (
         <>
@@ -278,7 +282,7 @@ const Form = ({
                     className={styled["form__btn"]}
                     // onclick할떄는 함수를 전달해줘야함 -> 당장 호출하는게 아니라 특정 이벤트가 발생했을 때 호출되어야 하기 떄문
                     onClick={() => {
-                      dispatcch(setIsFormEdit(false));
+                      setIsFormEdit(false);
                       setExpenseState(initialState);
                     }}
                   >
@@ -331,6 +335,10 @@ const Form = ({
 Form.propTypes = {
   item: PropTypes.arrayOf(PropTypes.object),
   setItem: PropTypes.func,
+  isFormEdit: PropTypes.string,
+  setIsFormEdit: PropTypes.func,
+  isFormAdd: PropTypes.bool,
+  setIsFormAdd: PropTypes.func,
 };
 
 export default Form;

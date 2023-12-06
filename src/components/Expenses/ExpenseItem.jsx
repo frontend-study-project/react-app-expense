@@ -1,20 +1,13 @@
 import PropTypes from "prop-types";
 import styles from "./ExpenseItem.module.css";
-import { useDispatch } from "react-redux";
-import { setIsFormAdd, setIsFormEdit } from "../../store/form";
-
 const ExpenseItem = (props) => {
-  const dispatch = useDispatch();
-
   const handleDelete = () => {
     props.handleDeleteItem(props.id);
   };
-
   const handleEdit = () => {
-    dispatch(setIsFormEdit(props.id));
-    dispatch(setIsFormAdd(true));
+    props.setIsFormEdit(props.id);
+    props.setIsFormAdd(true);
   };
-  
   return (
     <li>
       <div className={styles["expense-item"]}>
@@ -51,5 +44,7 @@ ExpenseItem.propTypes = {
   title: PropTypes.string,
   amount: PropTypes.number,
   handleDeleteItem: PropTypes.func,
+  setIsFormEdit: PropTypes.func,
+  setIsFormAdd: PropTypes.func,
 };
 export default ExpenseItem;

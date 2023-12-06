@@ -3,14 +3,10 @@ import BarChart from "../BarChart/BarChart";
 import ChartTitle from "../ChartTitle/ChartTitle";
 import styled from './annual.total.module.css';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentYear } from "../../../store/chart";
 
 const keys = ["수입", "지출", "잔고"];
 
-const AnnualTotal = ({ item }) => {
-  const dispatch = useDispatch();
-  const currentYear = useSelector(({ chart }) => chart.currentYear);
+const AnnualTotal = ({ item, dateState, setDateState }) => {
   const [data, setData] = React.useState([]);
   const [balance, setBalance] = React.useState(0);
   const [balancePercent, setBalancePercent] = React.useState(0);
@@ -41,14 +37,14 @@ const AnnualTotal = ({ item }) => {
   }, [item]);
 
   const handleChange = (e) => {
-    dispatch(setCurrentYear(e.target.value));
+    setDateState(e.target.value);
   };
 
   return (
     <div className={styled["annual-total"]}>
       <ChartTitle className={styled["annual-total__title"]}>
         <span>연도별 보기</span>
-        <select className={styled["annual-total__title--year"]} value={currentYear} onChange={handleChange}>
+        <select className={styled["annual-total__title--year"]} value={dateState} onChange={handleChange}>
           {
             Array
               .from({ length: 4 }, (_, index) => new Date().getFullYear() - index)
@@ -79,6 +75,8 @@ const AnnualTotal = ({ item }) => {
 
 AnnualTotal.propTypes = {
   item: PropTypes.array,
+  dateState: PropTypes.string,
+  setDateState: PropTypes.func,
 }
 
 export default AnnualTotal;
