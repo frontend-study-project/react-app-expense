@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "./Form.module.css";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsFormEdit, setIsFormAdd } from "../../store/form";
 import { localStorageChanger } from '../item/Item.js';
 
 // 0. Add Expense 버튼을 Edit 버튼으로 수정해주기 (옆에 cancle 버튼도!)
@@ -11,11 +13,13 @@ import { localStorageChanger } from '../item/Item.js';
 const Form = ({
   item,
   setItem,
-  isFormEdit,
-  setIsFormEdit,
-  isFormAdd,
-  setIsFormAdd,
 }) => {
+  const { isFormAdd, isFormEdit } = useSelector(({ form }) => ({
+    isFormAdd: form.isFormAdd,
+    isFormEdit: form.isFormEdit
+  }));
+  const dispatcch = useDispatch();
+
   const categoryRef = useRef(null);
   const titleRef = useRef(null);
   const amountRef = useRef(null);
@@ -115,6 +119,7 @@ const Form = ({
 
 		// 화면에 추가
 		setItem(updatedItems);
+    dispatcch(setIsFormEdit(false));
 		setExpenseState(initialState);
   };
 
@@ -144,7 +149,7 @@ const Form = ({
     setExpenseState(initialState);
   };
 
-  const toggleIsFormAdd = () => setIsFormAdd(!isFormAdd);
+  const toggleIsFormAdd = () => dispatcch(setIsFormAdd(!isFormAdd));
 
 	return (
     <div className={styled.form__content}>
@@ -282,7 +287,7 @@ const Form = ({
                     className={styled["form__btn"]}
                     // onclick할떄는 함수를 전달해줘야함 -> 당장 호출하는게 아니라 특정 이벤트가 발생했을 때 호출되어야 하기 떄문
                     onClick={() => {
-                      setIsFormEdit(false);
+                      dispatcch(setIsFormEdit(false));
                       setExpenseState(initialState);
                     }}
                   >
@@ -335,10 +340,6 @@ const Form = ({
 Form.propTypes = {
   item: PropTypes.arrayOf(PropTypes.object),
   setItem: PropTypes.func,
-  isFormEdit: PropTypes.string,
-  setIsFormEdit: PropTypes.func,
-  isFormAdd: PropTypes.bool,
-  setIsFormAdd: PropTypes.func,
 };
 
 export default Form;

@@ -5,21 +5,23 @@ import IncomeChart from '../IncomeChart/IncomeChart';
 import OutcomeChart from '../OutcomeChart/OutcomeChart';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const AnnualIncomeExpenseChart = ({ item, dateState, setDateState }) => {
+const AnnualIncomeExpenseChart = ({ item }) => {
+  const currentYear = useSelector(({ chart }) => chart.currentYear);
   const [chartType, setChartType] = React.useState('bar');
   const [yearItems, setYearItems] = React.useState([]);
 
   React.useEffect(() => {
-    const year = dateState || new Date().getFullYear();
+    const year = currentYear || new Date().getFullYear();
     const newItems = item
       .filter(({ date }) => date.getFullYear() === Number(year));
     setYearItems(newItems);
-  }, [item, dateState]);
+  }, [item, currentYear]);
 
   return (
     <div className={styled.annual}>
-      <AnnualTotal item={yearItems} dateState={dateState} setDateState={setDateState} />
+      <AnnualTotal item={yearItems} />
       <ChartRadio chartType={chartType} setChartType={setChartType} />
       <div className={`${chartType === 'pie' ? styled["pie-chart"] : ''}`}>
         <IncomeChart chartType={chartType} item={yearItems} />
@@ -31,8 +33,6 @@ const AnnualIncomeExpenseChart = ({ item, dateState, setDateState }) => {
 
 AnnualIncomeExpenseChart.propTypes = {
   item: PropTypes.array,
-  dateState: PropTypes.string,
-  setDateState: PropTypes.func,
 }
 
 export default AnnualIncomeExpenseChart;

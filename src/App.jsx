@@ -42,14 +42,7 @@ function App() {
     }
   ];
 
-  const [dateState, setDateState] = useState("");
-
   const [item, setItem] = useState(DUMMY_EXPENSES);
-
-  // Add New Expense
-
-	const [isFormAdd, setIsFormAdd] = useState(false);
-  const [isFormEdit, setIsFormEdit] = useState(false);
 
 	// pagination
 	const postPerPage = 3; //페이지당 글갯수
@@ -70,21 +63,13 @@ function App() {
       <Form
         item={item}
         setItem={setItem}
-        isFormEdit={isFormEdit}
-        setIsFormEdit={setIsFormEdit}
-        isFormAdd={isFormAdd}
-        setIsFormAdd={setIsFormAdd}
       />
       <AnnualIncomeExpenseChart
         item={item}
-        dateState={dateState}
-        setDateState={setDateState}
       />
       <Expenses
         items={currentPageItem}
         setItem={setItem}
-        setIsFormEdit={setIsFormEdit}
-        setIsFormAdd={setIsFormAdd}
       />
 			<Pagination
 				total={item.length}
@@ -95,8 +80,5 @@ function App() {
     </div>
   );
 }
-// App.propTypes = {
-//   isFormEdit: PropTypes.bool,
-// };
 
 export default App;
