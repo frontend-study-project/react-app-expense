@@ -42,7 +42,7 @@ const Pagination = ({total, postPerPage, setCurrentPage, currentPage}) => {
 	return (
 		<div className={styled["pagination"]}>
 			<div className={styled["pagination__content"]}>
-				<div>총 글 갯수: {total}</div>
+				{/*<div>총 글 갯수: {total}</div>*/}
 				<div>
 					<SlArrowLeft className={`${styled["pagination__prev"]} ${currentPage === 1? styled["pagination__prev-grey"] : ""}`} onClick={prePage} />
 					{

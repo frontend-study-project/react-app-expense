@@ -101,21 +101,11 @@ const Form = ({
 		}
 
     const storedItems = localStorageChanger();
-    //    // 아 이건 items.js에서 하면 될거 같아요/
-    // 어차피 localstore에서 가져온 값은 항상    // 네! 맞아요네~
-    // 방금 만든 함수는 일반 자바스크립트 함수 이기 때문에 export 했을 당시의 변수명을 import 해서 호출하면 될거에요
-    //변수는 그대로 저장해도 될거같아요저 함수를 호출한 반환값을 저장하는 storedItems 어차피 동일한 값을 저장하는 의미를 두고 있기 때문에
-    // 그럼 이제 여기 코드는 더 이상 작업 안해도 되고 item.js 에서
-    // 로컬스토리지에서 items를 가져오는 작업은 다른 파일에서도 사용이 될 수도 있을 거 같아서 여기 말고 공용으로 사용할 수 있는 파일을 하나 만든 후에
-    // 해당 파일에서 items를 가져하는 함수를 만들고 JSON.parse(localStorage.getItem("items")) || []; 코드를 옮겨주면 될거 같아요.
-    // 그리고 storedItems를 즉시 반환하지 않고 date은 문자열이기 때문에 Date 타입으로 변경!
     // 1. 로컬 스토리지에서 items를 가져오는 파일 만들고 파일안에 함수 만들기.
     // 2. 함수 안에 JSON.parse(localStorage.getItem("items")) || []; 코드 옮기기
     // 3. JSON.parse 메서드 호출한 값을 반복문을 돌려서 date 속성의 값을 문자열 -> Date 로 변경!
     const updatedItems = [...storedItems, newItem];
 		localStorage.setItem("items", JSON.stringify(updatedItems));
-
-		console.log(newItem, ...updatedItems)
 
 		// 화면에 추가
 		setItem(updatedItems);
