@@ -44,30 +44,30 @@ function App() {
 		}
 	];
 	const [item, setItem] = useState(DUMMY_EXPENSES);
-	// pagination
-	const postPerPage = 3; //페이지당 글갯수
-	const [currentPage, setCurrentPage] = useState(1); //현재 페이지
-	const [currentPageItem, setCurrentPageItem] = useState([]);
-	useEffect(() => {
-		// 현재페이지에 표시할 시작인덱스와 끝인덱스
-		// 0,1,2 -> 1페이지
-		// 3,4,5 -> 2페이지
-		// 6,7,8 -> 3페이지
-		const startIndex = (currentPage - 1) * postPerPage;
-		const endIndex = startIndex + postPerPage;
-		setCurrentPageItem(item.slice(startIndex, endIndex));
-	}, [currentPage, item, postPerPage]);
 
 	const fetchItemsFromLocalStorage = async () => {
 		const itemsString = localStorage.getItem("items");
-		const items = JSON.parse(itemsString) || [];
-		return items;
+		const items = JSON.parse(itemsString || []).map((item) => {
+			return {
+				...item,
+				amount: Number(item.amount),
+				date: new Date(item. date)
+			}
+		})
+		return items
 	};
 
 	const { data, isLoading } = useQuery(
 		"expenses",
 		fetchItemsFromLocalStorage
 	)
+	console.log(data)
+
+	useEffect(() => {
+		if(data) {
+			setItem(data);
+		}
+	}, [data]);
 
 	if(isLoading) return <LoadingIndicator />
 
@@ -81,15 +81,9 @@ function App() {
         item={item}
       />
       <Expenses
-        items={currentPageItem}
+        items={item}
         setItem={setItem}
       />
-			<Pagination
-				total={item.length}
-				postPerPage={postPerPage}
-				currentPage={currentPage}
-				setCurrentPage={setCurrentPage}
-			/>
     </div>
   );
 }

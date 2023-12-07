@@ -3,7 +3,6 @@ import styled from "./Form.module.css";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsFormEdit, setIsFormAdd } from "../../store/form";
-import { localStorageChanger } from '../item/Item.js';
 
 // 0. Add Expense 버튼을 Edit 버튼으로 수정해주기 (옆에 cancle 버튼도!)
 // 1. edit 버튼을 눌렀을 때 해당하는 아이템의 id 값을 가져온다
@@ -100,11 +99,10 @@ const Form = ({
 					date: new Date(expenseState.date),
 		}
 
-    const storedItems = localStorageChanger();
     // 1. 로컬 스토리지에서 items를 가져오는 파일 만들고 파일안에 함수 만들기.
     // 2. 함수 안에 JSON.parse(localStorage.getItem("items")) || []; 코드 옮기기
     // 3. JSON.parse 메서드 호출한 값을 반복문을 돌려서 date 속성의 값을 문자열 -> Date 로 변경!
-    const updatedItems = [...storedItems, newItem];
+    const updatedItems = [...item, newItem];
 		localStorage.setItem("items", JSON.stringify(updatedItems));
 
 		// 화면에 추가
