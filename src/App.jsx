@@ -6,6 +6,7 @@ import Form from "./components/form/Form.jsx";
 import AnnualIncomeExpenseChart from "./components/charts/AnnualIncomeExpenseChart/AnnualIncomeExpenseChart.jsx";
 import Pagination from "./components/pagination/Pagination.jsx";
 import {useQuery} from "react-query";
+import LoadingIndicator from "./components/UI/LoadingIndicator.jsx";
 
 function App() {
 	const DUMMY_EXPENSES = [
@@ -67,6 +68,8 @@ function App() {
 		"expenses",
 		fetchItemsFromLocalStorage
 	)
+
+	if(isLoading) return <LoadingIndicator />
 
 	return (
     <div>
