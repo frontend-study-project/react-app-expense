@@ -3,16 +3,25 @@ import styles from "./ExpensesList.module.css";
 import ExpenseItem from "./ExpenseItem.jsx";
 import ExpenseDate from "./ExpenseDate.jsx";
 import { useEffect, useState } from "react";
+import { useFetchItems, useDeleteItems } from "../../hooks/useItems"
 
-const ExpensesList = ({ items, setItem }) => {
+// 그리고 초기값은 어차피 임시 사용하는 데이터니까 main.js에서 로컬스토리지에 넣어주면 될거같아요!
+
+const ExpensesList = () => {
+	const { data : items, refetch } = useFetchItems('expenses');
+	const { mutate : deleteItems} = useDeleteItems();
   const [sortedItems, setSortedItems] = useState([]);
 
   // 1. 부모로부터 setItem 받아오기 - O
   // 2. 자식에서 handleDeleteItem를 호출하며 id 받아오기
-  const handleDeleteItem = (itemId) => {
-    const newItemList = items.filter((it) => it.id !== itemId);
-    setItem(newItemList);
-  };
+	const handleDeleteItem = async (itemId) => {
+		// Use the mutate function from useDeleteItems
+		await deleteItems(itemId, {
+			onSuccess: () => {
+				refetch();
+			}
+		})
+	};
 
   useEffect(() => {
     const newItems = items

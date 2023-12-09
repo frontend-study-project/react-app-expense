@@ -3,23 +3,26 @@ import styled from "./Form.module.css";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsFormEdit, setIsFormAdd } from "../../store/form";
+import { useFetchItems, useUpdateItems } from "../../hooks/useItems.js";
+import {useQueryClient} from "react-query";
 
 // 0. Add Expense 버튼을 Edit 버튼으로 수정해주기 (옆에 cancle 버튼도!)
 // 1. edit 버튼을 눌렀을 때 해당하는 아이템의 id 값을 가져온다
 // 2. 해당 id를 가진 아이템의 category, title, amount, date를 Form.jsx에 뿌린다
 // 3. 수정된 form에 있는 데이터들을 다시 가져와서 리스트로 뿌려준다
 
-const Form = ({
-  item,
-  setItem,
-}) => {
+const Form = () => {
+	const { data : items } = useFetchItems('expenses');
+	const { mutate : updateItems } = useUpdateItems();
+	const queryClient = useQueryClient()
   const { isFormAdd, isFormEdit } = useSelector(({ form }) => ({
     isFormAdd: form.isFormAdd,
     isFormEdit: form.isFormEdit
   }));
-  const dispatcch = useDispatch();
+  const dispatch = useDispatch();
 
-  const categoryRef = useRef(null);
+
+	const categoryRef = useRef(null);
   const titleRef = useRef(null);
   const amountRef = useRef(null);
   const dateRef = useRef(null);
@@ -68,7 +71,16 @@ const Form = ({
     });
   };
 
-  const handleSubmitAdd = () => {
+	const newItem = {
+		id: crypto.randomUUID(),
+		type: expenseState.type,
+		category: expenseState.category,
+		title: expenseState.title,
+		amount: Number(expenseState.amount),
+		date: new Date(expenseState.date),
+	}
+
+  const handleSubmitAdd = async () => {
     if (expenseState.category === "default" || !expenseState.category) {
       alert("카테고리를 선택하세요!");
       categoryRef.current.focus();
@@ -90,54 +102,42 @@ const Form = ({
       return;
     }
 
-		const newItem = {
-					id: crypto.randomUUID(),
-					type: expenseState.type,
-					category: expenseState.category,
-					title: expenseState.title,
-					amount: Number(expenseState.amount),
-					date: new Date(expenseState.date),
-		}
-
     // 1. 로컬 스토리지에서 items를 가져오는 파일 만들고 파일안에 함수 만들기.
     // 2. 함수 안에 JSON.parse(localStorage.getItem("items")) || []; 코드 옮기기
     // 3. JSON.parse 메서드 호출한 값을 반복문을 돌려서 date 속성의 값을 문자열 -> Date 로 변경!
-    const updatedItems = [...item, newItem];
-		localStorage.setItem("items", JSON.stringify(updatedItems));
-
-		// 화면에 추가
-		setItem(updatedItems);
-    dispatcch(setIsFormEdit(false));
-		setExpenseState(initialState);
+    await updateItems ([...items, newItem], {
+			onSuccess: () => {
+				// 뮤테이션이 성공한 후 데이터를 다시 가져옵니다.
+				// 이렇게 하면 최신 데이터로 다시 렌더링됩니다.
+				queryClient.refetchQueries('expenses');
+				dispatch(setIsFormEdit(false));
+				setExpenseState(initialState);
+			}
+		});
   };
 
   useEffect(() => {
-    const findItem = item.find((item) => item.id == isFormEdit);
+    const findItem = items.find((item) => item.id == isFormEdit);
     if (!findItem) return;
     setExpenseState(findItem);
-  }, [isFormEdit, item]);
+  }, [isFormEdit, items]);
 
-  const handleSubmitEdit = () => {
-    setItem((prev) =>
-      prev.map((item) => {
-        if (isFormEdit == item.id) {
-          return {
-            id: isFormEdit,
-            category: expenseState.category,
-            title: expenseState.title,
-            amount: Number(expenseState.amount),
-            date: new Date(expenseState.date),
-          };
-        }
-        return item;
-      })
-    );
-
-    setIsFormEdit(false); // 해주지않으면 useEffect에서 또들어감
-    setExpenseState(initialState);
+  const handleSubmitEdit = async () => {
+		// 데이터 업데이트를 mutate 함수를 이용하여 수행
+		await updateItems(
+			items.map((item) => (isFormEdit === item.id ? newItem : item)), {
+				onSuccess: () => {
+					// 뮤테이션이 성공한 후 데이터를 다시 가져옵니다.
+					// 이렇게 하면 최신 데이터로 다시 렌더링됩니다.
+					queryClient.refetchQueries('expenses');
+					dispatch(setIsFormEdit(false));
+					setExpenseState(initialState);
+				}
+			}
+		);
   };
 
-  const toggleIsFormAdd = () => dispatcch(setIsFormAdd(!isFormAdd));
+  const toggleIsFormAdd = () => dispatch(setIsFormAdd(!isFormAdd));
 
 	return (
     <div className={styled.form__content}>
@@ -189,7 +189,7 @@ const Form = ({
                         className={`${styled["form__btn"]} ${styled["form__btn--category"]}`}
                         onClick={toggleIsCategoryEdit}
                       >
-                        cancle
+                        cancel
                       </button>
                     </div>
                     <input
@@ -275,7 +275,7 @@ const Form = ({
                     className={styled["form__btn"]}
                     // onclick할떄는 함수를 전달해줘야함 -> 당장 호출하는게 아니라 특정 이벤트가 발생했을 때 호출되어야 하기 떄문
                     onClick={() => {
-                      dispatcch(setIsFormEdit(false));
+                      dispatch(setIsFormEdit(false));
                       setExpenseState(initialState);
                     }}
                   >
@@ -326,8 +326,7 @@ const Form = ({
 };
 
 Form.propTypes = {
-  item: PropTypes.arrayOf(PropTypes.object),
-  setItem: PropTypes.func,
+  item: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default Form;
