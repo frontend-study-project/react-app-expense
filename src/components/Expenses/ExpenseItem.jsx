@@ -1,17 +1,24 @@
 import PropTypes from "prop-types";
 import styles from "./ExpenseItem.module.css";
+import { useDeleteItems, useFetchItems } from "../../hooks/useItems.js";
 import { useDispatch } from "react-redux";
 import { setIsFormAdd, setIsFormEdit } from "../../store/form";
-
 const ExpenseItem = (props) => {
-  const dispatch = useDispatch();
-  const handleDelete = () => {
-    props.handleDeleteItem(props.id);
-  };
-  const handleEdit = () => {
-    dispatch(setIsFormEdit(props.id));
-    dispatch(setIsFormAdd(true));
-  };
+	const { data : items, refetch} = useFetchItems();
+	const { mutate : deleteItems} = useDeleteItems();
+	const dispatch = useDispatch();
+	const handleDeleteItem = async (itemId) => {
+		console.log("delete")
+		await deleteItems(itemId, {
+			onSuccess: () => {
+				refetch();
+			}
+		})
+	};
+	const handleEdit = () => {
+		dispatch(setIsFormEdit(props.id));
+		dispatch(setIsFormAdd(true));
+	};
   return (
     <li>
       <div className={styles["expense-item"]}>
@@ -33,7 +40,7 @@ const ExpenseItem = (props) => {
           <button
             className={styles["expense-item__btn-delete"]}
             type="button"
-            onClick={handleDelete}
+						onClick={()=>handleDeleteItem(props.id)}
           >
             DELETE
           </button>

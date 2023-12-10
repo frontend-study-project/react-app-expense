@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "./Form.module.css";
 import PropTypes from "prop-types";
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from "react-redux";
 import { setIsFormEdit, setIsFormAdd } from "../../store/form";
 import { useFetchItems, useUpdateItems } from "../../hooks/useItems.js";
@@ -12,7 +13,7 @@ import {useQueryClient} from "react-query";
 // 3. 수정된 form에 있는 데이터들을 다시 가져와서 리스트로 뿌려준다
 
 const Form = () => {
-	const { data : items } = useFetchItems('expenses');
+	const { data : items } = useFetchItems();
 	const { mutate : updateItems } = useUpdateItems();
 	const queryClient = useQueryClient()
   const { isFormAdd, isFormEdit } = useSelector(({ form }) => ({
@@ -72,7 +73,7 @@ const Form = () => {
   };
 
 	const newItem = {
-		id: crypto.randomUUID(),
+		id: uuidv4(),
 		type: expenseState.type,
 		category: expenseState.category,
 		title: expenseState.title,
@@ -109,7 +110,7 @@ const Form = () => {
 			onSuccess: () => {
 				// 뮤테이션이 성공한 후 데이터를 다시 가져옵니다.
 				// 이렇게 하면 최신 데이터로 다시 렌더링됩니다.
-				queryClient.refetchQueries('expenses');
+				queryClient.refetchQueries('items');
 				dispatch(setIsFormEdit(false));
 				setExpenseState(initialState);
 			}
@@ -118,6 +119,7 @@ const Form = () => {
 
   useEffect(() => {
     const findItem = items.find((item) => item.id == isFormEdit);
+		console.log(findItem)
     if (!findItem) return;
     setExpenseState(findItem);
   }, [isFormEdit, items]);
@@ -129,7 +131,7 @@ const Form = () => {
 				onSuccess: () => {
 					// 뮤테이션이 성공한 후 데이터를 다시 가져옵니다.
 					// 이렇게 하면 최신 데이터로 다시 렌더링됩니다.
-					queryClient.refetchQueries('expenses');
+					queryClient.refetchQueries('items');
 					dispatch(setIsFormEdit(false));
 					setExpenseState(initialState);
 				}
