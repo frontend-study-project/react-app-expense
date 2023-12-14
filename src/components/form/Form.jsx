@@ -3,13 +3,13 @@ import styled from "./Form.module.css";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from "react-redux";
-import {setIsFormEdit, setIsFormAdd, setExpenseState, resetExpenseState} from "../../store/form";
-import { useFetchItems, useUpdateItems } from "../../hooks/useItems.js";
+import { setIsFormEdit, setIsFormAdd, setExpenseState, resetExpenseState } from "../../store/form";
+import { useFetchItems, useAddItems, useUpdateItems } from "../../hooks/useItems.js";
 
 const Form = () => {
 	const dispatch = useDispatch();
 	const { data } = useFetchItems();
-	const { mutate : updateItemsMutate } = useUpdateItems();
+	const { mutate : addItemsMutate } = useAddItems();
   const { isFormAdd, isFormEdit, expenseState } = useSelector(({ form }) => ({
     isFormAdd: form.isFormAdd,
     isFormEdit: form.isFormEdit,
@@ -81,7 +81,7 @@ const Form = () => {
       return;
     }
 
-		updateItemsMutate([...data.items, newItem] );
+		addItemsMutate(newItem);
 	};
 
   // useEffect(() => {
@@ -91,20 +91,10 @@ const Form = () => {
   //   dispatch(setExpenseState(findItem));
   // }, [isFormEdit, items]);
 
-  // const handleSubmitEdit = async () => {
-	// 	// 데이터 업데이트를 mutate 함수를 이용하여 수행
-	// 	await updateItems(
-	// 		items.map((item) => (isFormEdit === item.id ? newItem : item)), {
-	// 			onSuccess: () => {
-	// 				// 뮤테이션이 성공한 후 데이터를 다시 가져옵니다.
-	// 				// 이렇게 하면 최신 데이터로 다시 렌더링됩니다.
-	// 				queryClient.refetchQueries('items');
-	// 				dispatch(setIsFormEdit(false));
-	// 				dispatch(setExpenseState(initialState));
-	// 			}
-	// 		}
-	// 	);
-  // };
+  const handleSubmitEdit = () => {
+		console.log(expenseState);
+		useUpdateItems();
+  };
 
   const toggleIsFormAdd = () => dispatch(setIsFormAdd(!isFormAdd));
 
@@ -254,7 +244,7 @@ const Form = () => {
                   <button
                     type="button"
                     className={styled["form__btn"]}
-                    // onClick={handleSubmitEdit}
+                    onClick={handleSubmitEdit}
                   >
                     Edit
                   </button>

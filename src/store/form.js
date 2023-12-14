@@ -9,8 +9,7 @@ const initialExpenseState = {
 const initialState = {
   isFormAdd: false,
   isFormEdit: false,
-  expenseState: initialExpenseState,
-	expenseCopy: {}
+  expenseState: initialExpenseState
 }
 
 const reducers = {
