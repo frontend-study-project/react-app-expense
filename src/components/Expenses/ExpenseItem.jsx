@@ -1,23 +1,29 @@
 import PropTypes from "prop-types";
 import styles from "./ExpenseItem.module.css";
 import { useDeleteItems, useFetchItems } from "../../hooks/useItems.js";
-import { useDispatch } from "react-redux";
-import { setIsFormAdd, setIsFormEdit } from "../../store/form";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsFormAdd, setIsFormEdit, setExpenseState } from "../../store/form";
 const ExpenseItem = (props) => {
-	const { data : items, refetch} = useFetchItems();
 	const { mutate : deleteItems} = useDeleteItems();
 	const dispatch = useDispatch();
-	const handleDeleteItem = async (itemId) => {
+	const handleDeleteItem = (itemId) => {
 		console.log("delete")
-		await deleteItems(itemId, {
-			onSuccess: () => {
-				refetch();
-			}
-		})
+		deleteItems(itemId);
 	};
+
 	const handleEdit = () => {
-		dispatch(setIsFormEdit(props.id));
+		const fields = ['type', 'category', 'title', 'amount'];
+		fields.forEach((field) => {
+			dispatch(setExpenseState({
+				name: field,
+				value: props[field], // props에서 필드 값 가져오기
+			}));
+		});
+
 		dispatch(setIsFormAdd(true));
+		dispatch(setIsFormEdit(true));
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
   return (
     <li>

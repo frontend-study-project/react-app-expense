@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "./Search.module.css";
 const Search = () => {
 	return(

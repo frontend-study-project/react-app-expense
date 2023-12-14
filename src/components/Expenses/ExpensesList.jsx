@@ -4,58 +4,57 @@ import ExpenseItem from "./ExpenseItem.jsx";
 import ExpenseDate from "./ExpenseDate.jsx";
 import { useEffect, useState } from "react";
 import { useFetchItems } from "../../hooks/useItems";
-const ExpensesList = ({currentPage}) => {
-	const { data : items, status, refetch} = useFetchItems();
-  const [ sortedItems, setSortedItems ] = useState([]);
+import Search from "../search/Search.jsx";
+import Pagination from "../pagination/Pagination";
+
+const ExpensesList = () => {
+	const [ currentPage, setCurrentPage ] = useState(1);
+	const { data : items } = useFetchItems(currentPage);
+	const [ sortedItems, setSortedItems ] = useState([]);
+
 
 	useEffect(() => {
-		if (status === 'success') {
-			const postPerPage = 3;
-			const startIndex = (currentPage - 1) * postPerPage;
-			const endIndex = startIndex + postPerPage;
+		if(!items.newItems) return;
+		const groupedItems = items.newItems.reduce((acc, item) => {
+			const time = `${item.date.getFullYear()}-${item.date.getMonth()}-${item.date.getDate()}`;
+			const list = acc.get(time) || [];
+			list.push(item);
+			list.date = item.date;
+			acc.set(time, list);
+			return acc;
+		}, new Map());
 
-			const newItems = items
-				.sort((a, b) => b.date - a.date)
-				.slice(startIndex, endIndex);
-
-
-			const groupedItems = newItems.reduce((acc, item) => {
-				const time = `${item.date.getFullYear()}-${item.date.getMonth()}-${item.date.getDate()}`;
-				const list = acc.get(time) || [];
-				list.push(item);
-				list.date = item.date;
-				acc.set(time, list);
-				return acc;
-			}, new Map());
-
-			setSortedItems([...groupedItems.values()]);
-		}
-	}, [items, status, setSortedItems, currentPage]);
-
+		setSortedItems([...groupedItems.values()]);
+	}, [items.newItems, setSortedItems, currentPage]);
 
 	return (
-    <ul className={styles["expenses-list"]}>
-      {sortedItems.map((expenseList, index) => (
-        <div key={index}>
-          <ExpenseDate date={expenseList.date} />
-          {expenseList.map((expense) => (
-            <ExpenseItem
-              key={expense.id}
-              id={expense.id}
-              category={expense.category}
-              title={expense.title}
-              amount={expense.amount}
-            />
-          ))}
-        </div>
-      ))}
-    </ul>
+		<>
+			<Search />
+			<ul className={styles["expenses-list"]}>
+				{sortedItems.map((expenseList, index) => (
+					<div key={index}>
+						<ExpenseDate date={expenseList.date} />
+						{expenseList.map((expense) => (
+							<ExpenseItem
+								key={expense.id}
+								id={expense.id}
+								type={expense.type}
+								category={expense.category}
+								title={expense.title}
+								amount={expense.amount}
+								date={expense.date}
+							/>
+						))}
+					</div>
+				))}
+			</ul>
+			<Pagination 
+				currentPage={currentPage} 
+				setCurrentPage={setCurrentPage} 
+				total={items.total || 0}
+			/>
+		</>
   );
-};
-
-ExpensesList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-	currentPage: PropTypes.number,
 };
 
 export default ExpensesList;

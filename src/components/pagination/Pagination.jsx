@@ -3,16 +3,14 @@ import styled from "./Pagination.module.css";
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { useFetchItems } from "../../hooks/useItems.js";
 
-const Pagination = ({ currentPage, setCurrentPage }) => {
-	const { data: items } = useFetchItems();
-	const postPerPage = 3;
-
-	const endPage = Math.ceil(items.length / postPerPage);
+const Pagination = ({ currentPage, setCurrentPage, total }) => {
+	const endPage = Math.ceil(total / 3);
 	const pageGroupSize = 5;
 	const currentPageGroup = Math.ceil(currentPage / pageGroupSize);
 	const startPageNum = (currentPageGroup - 1) * pageGroupSize + 1;
 	const endPageNum = Math.min(startPageNum + pageGroupSize - 1, endPage);
 	const pageNumbers = Array.from({ length: endPageNum - startPageNum + 1 }, (_, index) => startPageNum + index);
+
 
 	const pageClick = (data) => {
 		setCurrentPage(data);
@@ -60,7 +58,8 @@ const Pagination = ({ currentPage, setCurrentPage }) => {
 
 Pagination.propTypes = {
 	currentPage: PropTypes.number,
-	setCurrentPage: PropTypes.func
+	setCurrentPage: PropTypes.func,
+	total: PropTypes.number
 };
 
 export default Pagination;
