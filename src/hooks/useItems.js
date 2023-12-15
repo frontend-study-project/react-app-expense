@@ -1,8 +1,7 @@
 import * as itemApi from '../services/api/Item';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
-import { setIsFormEdit, setIsFormAdd, setExpenseState, resetExpenseState } from "../store/form";
+import { setIsFormEdit, resetExpenseState } from "../store/form";
 import { useDispatch } from "react-redux";
-import { addItemsInLocalStorage } from "../services/api/Item";
 const DUMMY_EXPENSES = [
 	{
 		id: "e1",
@@ -91,7 +90,9 @@ export const useDeleteItems = () => {
 	return useMutation(
 		(itemId) => itemApi.deleteItemFromLocalStorage(itemId),
 		{
-			onSuccese : () => { queryClient.invalidateQueries(["items"]) }
+			onSuccess : () => {
+				queryClient.invalidateQueries(["items"])
+			}
 		}
 	);
 };

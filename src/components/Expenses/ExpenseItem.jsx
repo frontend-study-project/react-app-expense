@@ -4,11 +4,11 @@ import { useDeleteItems } from "../../hooks/useItems.js";
 import { useDispatch } from "react-redux";
 import { setIsFormAdd, setIsFormEdit, setExpenseState } from "../../store/form";
 const ExpenseItem = (props) => {
-	const { mutate : deleteItems} = useDeleteItems();
+	const { mutate : deleteItemsMutate } = useDeleteItems();
 	const dispatch = useDispatch();
 	const handleDeleteItem = (itemId) => {
-		console.log("delete")
-		deleteItems(itemId);
+		console.log(itemId)
+		deleteItemsMutate();
 	};
 
 	const handleEdit = () => {
