@@ -3,13 +3,13 @@ import styled from "./Form.module.css";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from "react-redux";
-import { setIsFormEdit, setIsFormAdd, setExpenseState, resetExpenseState } from "../../store/form";
+import { setIsFormEdit, setIsFormAdd, setExpenseState } from "../../store/form";
 import { useFetchItems, useAddItems, useUpdateItems } from "../../hooks/useItems.js";
 
 const Form = () => {
 	const dispatch = useDispatch();
-	const { data } = useFetchItems();
-	const { mutate : addItemsMutate } = useAddItems();
+	const { mutate: addItemsMutate } = useAddItems();
+	const { mutate: updateItemsMutate } = useUpdateItems();
   const { isFormAdd, isFormEdit, expenseState } = useSelector(({ form }) => ({
     isFormAdd: form.isFormAdd,
     isFormEdit: form.isFormEdit,
@@ -46,7 +46,7 @@ const Form = () => {
   const handleChangeState = (e) => {
     dispatch(setExpenseState({
 			name: e.target.name,
-			value: e.target.value
+			value: e.target.value,
     }))
   };
 
@@ -83,21 +83,10 @@ const Form = () => {
 
 		addItemsMutate(newItem);
 	};
-
-  // useEffect(() => {
-  //   const findItem = items.find((item) => item.id == isFormEdit);
-	// 	console.log(findItem)
-  //   if (!findItem) return;
-  //   dispatch(setExpenseState(findItem));
-  // }, [isFormEdit, items]);
-
   const handleSubmitEdit = () => {
-		console.log(expenseState);
-		useUpdateItems();
+		updateItemsMutate(expenseState);
   };
-
   const toggleIsFormAdd = () => dispatch(setIsFormAdd(!isFormAdd));
-
 	return (
     <div className={styled.form__content}>
 			{/* true > edit, false > add */}

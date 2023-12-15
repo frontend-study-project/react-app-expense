@@ -20,12 +20,14 @@ const reducers = {
   setIsFormEdit(state, { payload: isFormEdit }) {
     state.isFormEdit = isFormEdit;
   },
+
   setExpenseState(state, { payload: expenseState}) {
     state.expenseState = {
       ...state.expenseState,
       [expenseState.name]: expenseState.value, //속성의 이름을 동적으로 설정할때, 자바스크립트에서는 []대괄호를 사용한다.!
     }
   },
+
 	resetExpenseState(state) {
 		state.expenseState = initialExpenseState;
 	},

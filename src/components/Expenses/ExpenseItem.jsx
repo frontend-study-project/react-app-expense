@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import styles from "./ExpenseItem.module.css";
-import { useDeleteItems, useFetchItems } from "../../hooks/useItems.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useDeleteItems } from "../../hooks/useItems.js";
+import { useDispatch } from "react-redux";
 import { setIsFormAdd, setIsFormEdit, setExpenseState } from "../../store/form";
 const ExpenseItem = (props) => {
 	const { mutate : deleteItems} = useDeleteItems();
@@ -19,9 +19,13 @@ const ExpenseItem = (props) => {
 				value: props[field], // props에서 필드 값 가져오기
 			}));
 		});
+		dispatch(setExpenseState({
+			name: 'id',
+			value: props.id,
+		}));
 
 		dispatch(setIsFormAdd(true));
-		dispatch(setIsFormEdit(true));
+		dispatch(setIsFormEdit(true, props.id));
 
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};

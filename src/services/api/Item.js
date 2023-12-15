@@ -62,8 +62,22 @@ export const addItemsInLocalStorage = (newData) => {
 	localStorage.setItem('items', JSON.stringify(items));
 };
 
-export const updateItemsInLocalStorage = () => {
+export const updateItemsInLocalStorage = (updateItems) => {
+// 전체아이템 가져오기
+	const itemsString = localStorage.getItem("items");
+	let items = JSON.parse(itemsString || '[]');
 
+	console.log(updateItems, items)
+
+		const index = items.findIndex((item) => item.id === updateItems.id);
+		if(index !== -1){
+			items[index] = updateItems
+		}
+
+	// 변경된 아이템 목록을 다시 로컬 스토리지에 저장
+	localStorage.setItem("items", JSON.stringify(items));
+
+	return items; // 변경된 아이템 목록 반환
 }
 export const deleteItemFromLocalStorage = (itemId) => {
 	// 로컬 스토리지에서 아이템 목록을 가져옴

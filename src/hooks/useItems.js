@@ -51,7 +51,6 @@ export const useFetchItems = (page) => (
 		staleTime: 1000,
   })
 );
-
 export const useAddItems = () => {
 	const queryClient = useQueryClient();
 	const dispatch = useDispatch();
@@ -65,14 +64,28 @@ export const useAddItems = () => {
 					dispatch(resetExpenseState());
 					// dispatch(setExpenseState())
 					dispatch(setIsFormEdit(false));
-
 				}
 			}
 	);
 };
 export const useUpdateItems = () => {
+	const queryClient = useQueryClient();
+	const dispatch = useDispatch();
 
-}
+	return useMutation(
+		(updatedItems) => {
+			itemApi.updateItemsInLocalStorage(updatedItems);
+		},
+		{
+			onSuccess: () => {
+				// 데이터 업데이트가 성공하면 실행되는 콜백
+				queryClient.invalidateQueries(['items']);
+				dispatch(resetExpenseState());
+				dispatch(setIsFormEdit(false));
+			},
+		}
+	);
+};
 export const useDeleteItems = () => {
 	const queryClient = useQueryClient();
 	return useMutation(
