@@ -7,7 +7,7 @@ function App() {
 	return (
     <div>
       <Form />
-      <AnnualIncomeExpenseChart />
+      {/*<AnnualIncomeExpenseChart />*/}
       <Expenses />
     </div>
   );

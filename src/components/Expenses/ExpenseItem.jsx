@@ -7,8 +7,7 @@ const ExpenseItem = (props) => {
 	const { mutate : deleteItemsMutate } = useDeleteItems();
 	const dispatch = useDispatch();
 	const handleDeleteItem = (itemId) => {
-		console.log(itemId)
-		deleteItemsMutate();
+		deleteItemsMutate(itemId);
 	};
 
 	const handleEdit = () => {
