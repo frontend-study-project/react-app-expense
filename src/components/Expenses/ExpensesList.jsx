@@ -3,57 +3,72 @@ import styles from "./ExpensesList.module.css";
 import ExpenseItem from "./ExpenseItem.jsx";
 import ExpenseDate from "./ExpenseDate.jsx";
 import { useEffect, useState } from "react";
+import { useFetchItems } from "../../hooks/useItems";
+import Search from "../search/Search.jsx";
+import Pagination from "../pagination/Pagination";
+import { useSelector } from "react-redux";
 
-const ExpensesList = ({ items, setItem }) => {
-  const [sortedItems, setSortedItems] = useState([]);
+const ExpensesList = () => {
+	const [ currentPage, setCurrentPage ] = useState(1);
+	const [ searchInput, setSearchInput ] = useState("");
+	const { data : items } = useFetchItems(currentPage, searchInput);
+	const [ sortedItems, setSortedItems ] = useState([]);
+	const searchItems = (serchValue) => {
+		setSearchInput(serchValue);
+		console.log(serchValue);
+	}
 
-  // 1. 부모로부터 setItem 받아오기 - O
-  // 2. 자식에서 handleDeleteItem를 호출하며 id 받아오기
-  const handleDeleteItem = (itemId) => {
-    const newItemList = items.filter((it) => it.id !== itemId);
-    setItem(newItemList);
-  };
+	useEffect(() => {
+		if(!items.newItems) return;
+		const groupedItems = items.newItems.reduce((acc, item) => {
+			const time = `${item.date.getFullYear()}-${item.date.getMonth()}-${item.date.getDate()}`;
+			const list = acc.get(time) || [];
+			list.push(item);
+			list.date = item.date;
+			acc.set(time, list);
+			return acc;
+		}, new Map());
 
-  useEffect(() => {
-    const newItems = items
-      .toSorted((a, b) => b.date - a.date)
-      .reduce((acc, item) => {
-        const time = `${item.date.getFullYear()}-${item.date.getMonth()}-${item.date.getDate()}`;
-        const list = acc.get(time) || [];
-        list.push(item);
-        list.date = item.date;
-        acc.set(time, list);
-        return acc;
-      }, new Map());
+		setSortedItems([...groupedItems.values()]);
+	}, [items.newItems, setSortedItems, currentPage]);
 
-    setSortedItems([...newItems.values()]);
-  }, [items, setSortedItems]);
-
-  return (
-    <ul className={styles["expenses-list"]}>
-      {sortedItems.map((expenseList, index) => (
-        <div key={index}>
-          <ExpenseDate date={expenseList.date} />
-
-          {expenseList.map((expense) => (
-            <ExpenseItem
-              key={expense.id}
-              id={expense.id}
-              category={expense.category}
-              title={expense.title}
-              amount={expense.amount}
-              handleDeleteItem={handleDeleteItem}
-            />
-          ))}
-        </div>
-      ))}
-    </ul>
+	return (
+		<>
+			{ items.newItems.length <= 0 ? (
+				<p style={{ color: '#ffffff' }}>데이터를 추가하세요</p>
+			) : (
+				<>
+					<Search
+						searchItems={searchItems}
+					/>
+					<ul className={styles["expenses-list"]}>
+						{sortedItems.map((expenseList, index) => (
+							<div key={index}>
+								<ExpenseDate date={expenseList.date} />
+								{expenseList.map((expense) => (
+									<ExpenseItem
+										key={expense.id}
+										id={expense.id}
+										type={expense.type}
+										category={expense.category}
+										title={expense.title}
+										amount={expense.amount}
+										date={expense.date}
+									/>
+								))}
+							</div>
+						))}
+					</ul>
+					<Pagination
+						currentPage={currentPage}
+						setCurrentPage={setCurrentPage}
+						total={items.total || 0}
+					/>
+				</>
+			)
+			}
+		</>
   );
-};
-
-ExpensesList.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-  setItem: PropTypes.func,
 };
 
 export default ExpensesList;

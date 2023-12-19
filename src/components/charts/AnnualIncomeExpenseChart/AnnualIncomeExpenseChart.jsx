@@ -6,18 +6,23 @@ import OutcomeChart from '../OutcomeChart/OutcomeChart';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useFetchItems } from "../../../hooks/useItems.js";
 
-const AnnualIncomeExpenseChart = ({ item }) => {
+const AnnualIncomeExpenseChart = () => {
+	const { data : items } = useFetchItems('expenses'); // 1년치에 대한 데이터의 훅
+
   const currentYear = useSelector(({ chart }) => chart.currentYear);
   const [chartType, setChartType] = React.useState('bar');
   const [yearItems, setYearItems] = React.useState([]);
 
+
   React.useEffect(() => {
+    // currentYear도 undefind or null일경우 new Date().getFullYear()를 사용해서 현재 연도로 초기화하고 있어요
     const year = currentYear || new Date().getFullYear();
-    const newItems = item
+    const newItems = (items.newItems || [])
       .filter(({ date }) => date.getFullYear() === Number(year));
     setYearItems(newItems);
-  }, [item, currentYear]);
+  }, [items.newItems, currentYear]);
 
   return (
     <div className={styled.annual}>

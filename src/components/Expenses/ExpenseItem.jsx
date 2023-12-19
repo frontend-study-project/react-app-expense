@@ -1,17 +1,33 @@
 import PropTypes from "prop-types";
 import styles from "./ExpenseItem.module.css";
+import { useDeleteItems } from "../../hooks/useItems.js";
 import { useDispatch } from "react-redux";
-import { setIsFormAdd, setIsFormEdit } from "../../store/form";
-
+import { setIsFormAdd, setIsFormEdit, setExpenseState } from "../../store/form";
 const ExpenseItem = (props) => {
-  const dispatch = useDispatch();
-  const handleDelete = () => {
-    props.handleDeleteItem(props.id);
-  };
-  const handleEdit = () => {
-    dispatch(setIsFormEdit(props.id));
-    dispatch(setIsFormAdd(true));
-  };
+	const { mutate : deleteItemsMutate } = useDeleteItems();
+	const dispatch = useDispatch();
+	const handleDeleteItem = (itemId) => {
+		deleteItemsMutate(itemId);
+	};
+
+	const handleEdit = () => {
+		const fields = ['type', 'category', 'title', 'amount'];
+		fields.forEach((field) => {
+			dispatch(setExpenseState({
+				name: field,
+				value: props[field], // props에서 필드 값 가져오기
+			}));
+		});
+		dispatch(setExpenseState({
+			name: 'id',
+			value: props.id,
+		}));
+
+		dispatch(setIsFormAdd(true));
+		dispatch(setIsFormEdit(true, props.id));
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	};
   return (
     <li>
       <div className={styles["expense-item"]}>
@@ -33,7 +49,7 @@ const ExpenseItem = (props) => {
           <button
             className={styles["expense-item__btn-delete"]}
             type="button"
-            onClick={handleDelete}
+						onClick={()=>handleDeleteItem(props.id)}
           >
             DELETE
           </button>
