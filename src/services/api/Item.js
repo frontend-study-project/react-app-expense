@@ -1,38 +1,4 @@
-const DUMMY_EXPENSES = [
-	{
-		id: "e1",
-		type: "outcome", // type 추가
-		category: "쇼핑",
-		title: "Toilet Paper",
-		amount: 94.12,
-		date: new Date(2020, 7, 14),
-	},
-	{
-		id: "e2",
-		type: "outcome",
-		category: "쇼핑",
-		title: "New TV",
-		amount: 799.49,
-		date: new Date(2021, 2, 12),
-	},
-	{
-		id: "e3",
-		type: "outcome",
-		category: "보험",
-		title: "Car Insurance",
-		amount: 294.67,
-		date: new Date(2021, 2, 28),
-	},
-	{
-		id: "e4",
-		type: "outcome",
-		category: "쇼핑",
-		title: "New Desk (Wooden)",
-		amount: 450,
-		date: new Date(2021, 5, 12),
-	},
-];
-export const fetchItemsFromLocalStorage = (currentPage) => {
+export const fetchItemsFromLocalStorage = (currentPage, searchInput) => {
   const itemsString = localStorage.getItem("items");
   const items = JSON.parse(itemsString || '[]').map((item) => {
       return {
@@ -41,15 +7,24 @@ export const fetchItemsFromLocalStorage = (currentPage) => {
           date: new Date(item. date)
       }
   })
+	// 검색어에 해당하는 아이템을 필터링한다
+	const filteredItems = items.filter((item) =>
+		Object.values(item)
+			.join("")
+			.toLowerCase()
+			.includes(searchInput.toLowerCase())
+	);
+
+	// 페이지네이션으로 아이템 slice하기
   const postPerPage = 3;
   const startIndex = (currentPage - 1) * postPerPage;
   const endIndex = startIndex + postPerPage;
 
-  const newItems = items
+  const newItems = filteredItems
     .sort((a, b) => b.date - a.date)
     .slice(startIndex, endIndex);
 
-	return { newItems, total: items.length }
+	return { newItems, total: filteredItems.length, searchInput }
 
 };
 export const addItemsInLocalStorage = (newData) => {

@@ -2,11 +2,11 @@ import * as itemApi from '../services/api/Item';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import { setIsFormEdit, resetExpenseState } from "../store/form";
 import { useDispatch } from "react-redux";
-export const useFetchItems = (page) => (
+export const useFetchItems = (page, searchInput) => (
   useQuery({
-    queryKey: ["items", page],
+    queryKey: ["items", page, searchInput], //페이지네이션, 검색어를 포함한 쿼리키
     queryFn: () => {
-      return itemApi.fetchItemsFromLocalStorage(page);
+      return itemApi.fetchItemsFromLocalStorage(page, searchInput);
     },
 		initialData: {
 			items : [],

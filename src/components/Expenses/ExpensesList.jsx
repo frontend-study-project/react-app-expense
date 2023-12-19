@@ -6,14 +6,17 @@ import { useEffect, useState } from "react";
 import { useFetchItems } from "../../hooks/useItems";
 import Search from "../search/Search.jsx";
 import Pagination from "../pagination/Pagination";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const ExpensesList = () => {
 	const [ currentPage, setCurrentPage ] = useState(1);
-	const { data : items } = useFetchItems(currentPage);
+	const [ searchInput, setSearchInput ] = useState("");
+	const { data : items } = useFetchItems(currentPage, searchInput);
 	const [ sortedItems, setSortedItems ] = useState([]);
-	console.log(items)
-
+	const searchItems = (serchValue) => {
+		setSearchInput(serchValue);
+		console.log(serchValue);
+	}
 
 	useEffect(() => {
 		if(!items.newItems) return;
@@ -35,7 +38,9 @@ const ExpensesList = () => {
 				<p style={{ color: '#ffffff' }}>데이터를 추가하세요</p>
 			) : (
 				<>
-					<Search />
+					<Search
+						searchItems={searchItems}
+					/>
 					<ul className={styles["expenses-list"]}>
 						{sortedItems.map((expenseList, index) => (
 							<div key={index}>
