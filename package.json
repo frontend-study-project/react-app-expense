@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://frontend-study-project.github.io/react-app-expense/",
+  "homepage": "https://frontend-study-project.github.io/react-app-expense",
   "scripts": {
     "start": "vite --host",
     "build": "vite build",
