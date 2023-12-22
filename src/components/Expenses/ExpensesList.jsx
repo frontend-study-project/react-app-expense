@@ -34,39 +34,45 @@ const ExpensesList = () => {
 
 	return (
 		<>
-			{ items.newItems.length <= 0 ? (
-				<p style={{ color: '#ffffff' }}>데이터를 추가하세요</p>
+			{items.dataCheckMessage? (
+				<p style={{ color: '#ffffff' }}>{items.dataCheckMessage}</p>
 			) : (
 				<>
+
 					<Search
 						searchItems={searchItems}
 					/>
-					<ul className={styles["expenses-list"]}>
-						{sortedItems.map((expenseList, index) => (
-							<div key={index}>
-								<ExpenseDate date={expenseList.date} />
-								{expenseList.map((expense) => (
-									<ExpenseItem
-										key={expense.id}
-										id={expense.id}
-										type={expense.type}
-										category={expense.category}
-										title={expense.title}
-										amount={expense.amount}
-										date={expense.date}
-									/>
+					{items.searchResultMessage?(
+						<p style={{ color: '#ffffff' }}>{items.searchResultMessage}</p>
+					) : (
+						<>
+							<ul className={styles["expenses-list"]}>
+								{sortedItems.map((expenseList, index) => (
+									<div key={index}>
+										<ExpenseDate date={expenseList.date} />
+										{expenseList.map((expense) => (
+											<ExpenseItem
+												key={expense.id}
+												id={expense.id}
+												type={expense.type}
+												category={expense.category}
+												title={expense.title}
+												amount={expense.amount}
+												date={expense.date}
+											/>
+										))}
+									</div>
 								))}
-							</div>
-						))}
-					</ul>
-					<Pagination
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
-						total={items.total || 0}
-					/>
+							</ul>
+							<Pagination
+								currentPage={currentPage}
+								setCurrentPage={setCurrentPage}
+								total={items.total || 0}
+							/>
+						</>
+					)}
 				</>
-			)
-			}
+			)}
 		</>
   );
 };

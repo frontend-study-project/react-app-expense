@@ -24,7 +24,13 @@ export const fetchItemsFromLocalStorage = (currentPage, searchInput) => {
     .sort((a, b) => b.date - a.date)
     .slice(startIndex, endIndex);
 
-	return { newItems, total: filteredItems.length, searchInput }
+
+	const dataCheckMessage = items.length === 0 ? '데이터를 추가해주세요' : '';
+	const total = filteredItems.length;
+	const searchResultMessage = total === 0 ? '검색 조건에 맞는 데이터가 없습니다.' : '';
+
+
+	return { newItems, total, searchInput, dataCheckMessage, searchResultMessage }
 
 };
 export const addItemsInLocalStorage = (newData) => {
