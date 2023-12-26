@@ -1,23 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "./Form.module.css";
 import PropTypes from "prop-types";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsFormEdit, setIsFormAdd, setExpenseState } from "../../store/form";
-import { useFetchItems, useAddItems, useUpdateItems } from "../../hooks/useItems.js";
+import {
+  useFetchItems,
+  useAddItems,
+  useUpdateItems,
+} from "../../hooks/useItems.js";
 
 const Form = () => {
-	const dispatch = useDispatch();
-	const { mutate: addItemsMutate } = useAddItems();
-	const { mutate: updateItemsMutate } = useUpdateItems();
+  const dispatch = useDispatch();
+  const { mutate: addItemsMutate } = useAddItems();
+  const { mutate: updateItemsMutate } = useUpdateItems();
   const { isFormAdd, isFormEdit, expenseState } = useSelector(({ form }) => ({
     isFormAdd: form.isFormAdd,
     isFormEdit: form.isFormEdit,
-		expenseState: form.expenseState
+    expenseState: form.expenseState,
   }));
 
-	const categoryRef = useRef(null);
-  const titleRef = useRef(null);
+  const categoryRef = useRef(null);
+  const contentRef = useRef(null);
   const amountRef = useRef(null);
   const dateRef = useRef(null);
 
@@ -44,20 +48,22 @@ const Form = () => {
     setIsCategoryEdit(!isCategoryEdit);
   };
   const handleChangeState = (e) => {
-    dispatch(setExpenseState({
-			name: e.target.name,
-			value: e.target.value,
-    }))
+    dispatch(
+      setExpenseState({
+        name: e.target.name,
+        value: e.target.value,
+      })
+    );
   };
 
-	const newItem = {
-		id: uuidv4(),
-		type: expenseState.type,
-		category: expenseState.category,
-		title: expenseState.title,
-		amount: Number(expenseState.amount),
-		date: new Date(expenseState.date),
-	}
+  const newItem = {
+    id: uuidv4(),
+    type: expenseState.type,
+    category: expenseState.category,
+    content: expenseState.content,
+    amount: Number(expenseState.amount),
+    date: new Date(expenseState.date),
+  };
 
   const handleSubmitAdd = () => {
     if (expenseState.category === "default" || !expenseState.category) {
@@ -65,9 +71,9 @@ const Form = () => {
       categoryRef.current.focus();
       return;
     }
-    if (expenseState.title.length < 1) {
-      alert("Title은 최소 1글자 이상 입력해주세요!");
-      titleRef.current.focus();
+    if (expenseState.content.length < 1) {
+      alert("content은 최소 1글자 이상 입력해주세요!");
+      contentRef.current.focus();
       return;
     }
     if (expenseState.amount < 1) {
@@ -81,49 +87,56 @@ const Form = () => {
       return;
     }
 
-		addItemsMutate(newItem);
-	};
+    addItemsMutate(newItem);
+  };
   const handleSubmitEdit = () => {
-		updateItemsMutate(expenseState);
+    updateItemsMutate(expenseState);
   };
   const toggleIsFormAdd = () => dispatch(setIsFormAdd(!isFormAdd));
-	return (
+  return (
     <div className={styled.form__content}>
-			{/* true > edit, false > add */}
+      {/* true > edit, false > add */}
       {isFormAdd ? (
         <>
           <form id="expenseForm" className="form">
             <div className={styled["form__box"]}>
+              <strong id="typecontent">거래구분</strong>
+
               <div
                 className={styled["form__box--type"]}
                 role="radiogroup"
-                aria-labelledby="typeTitle"
+                aria-labelledby="typecontent"
               >
-                <strong id="typeTitle">거래구분</strong>
-                <input
-                  type="radio"
-                  id="income"
-                  name="type"
-                  value="income"
-                  onChange={handleChangeState}
-                  checked={expenseState.type === "income"}
-                />
-                <label htmlFor="income">수입</label>
-                <input
-                  type="radio"
-                  id="outcome"
-                  name="type"
-                  value="outcome"
-                  onChange={handleChangeState}
-                  checked={expenseState.type === "outcome"}
-                />
-                <label htmlFor="outcome">지출</label>
+                <div className={styled["form__box--type-inner"]}>
+                  <input
+                    type="radio"
+                    id="income"
+                    name="type"
+                    value="income"
+                    onChange={handleChangeState}
+                    checked={expenseState.type === "income"}
+                  />
+                  <label htmlFor="income">수입</label>
+                </div>
+                <div className={styled["form__box--type-inner"]}>
+                  <input
+                    type="radio"
+                    id="outcome"
+                    name="type"
+                    value="outcome"
+                    onChange={handleChangeState}
+                    checked={expenseState.type === "outcome"}
+                  />
+                  <label htmlFor="outcome">지출</label>
+                </div>
               </div>
+            </div>
+            <div className={styled["form__box"]}>
               <div className={styled["form__box--category"]}>
                 {isCategoryEdit ? (
                   <>
                     <div className={styled["form__category--box"]}>
-                      <label htmlFor="categorcategoryAddTitleyAdd">
+                      <label htmlFor="categorcategoryAddcontentyAdd">
                         Add a new category
                       </label>
                       <button
@@ -143,7 +156,7 @@ const Form = () => {
                     </div>
                     <input
                       type="text"
-                      id="categoryAddTitle"
+                      id="categoryAddcontent"
                       name="newCategory"
                       value={newCategory}
                       onChange={handleChangeCategory}
@@ -151,40 +164,42 @@ const Form = () => {
                   </>
                 ) : (
                   <>
+                    <label htmlFor="category">카테고리</label>
                     <div className={styled["form__category--box"]}>
-                      <label htmlFor="category">Category</label>
+                      <select
+                        ref={categoryRef}
+                        name="category"
+                        value={expenseState.category}
+                        onChange={handleChangeState}
+                      >
+                        <option value="default">카테고리 선택</option>
+                        {categoryList.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      </select>
                       <button
                         type="button"
                         className={`${styled["form__btn"]} ${styled["form__btn--category"]}`}
                         onClick={toggleIsCategoryEdit}
                       >
-                        Add
+                        추가
                       </button>
                     </div>
-                    <select
-                      ref={categoryRef}
-                      name="category"
-                      value={expenseState.category}
-                      onChange={handleChangeState}
-                    >
-                      <option value="default">카테고리 선택</option>
-                      {categoryList.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                    </select>
                   </>
                 )}
               </div>
-              <div className={styled["form__box--title"]}>
-                <label htmlFor="title">Title</label>
+            </div>
+            <div className={styled["form__box"]}>
+              <div className={styled["form__box--content"]}>
+                <label htmlFor="content">거래내용</label>
                 <input
-                  ref={titleRef}
+                  ref={contentRef}
                   type="text"
-                  id="title"
-                  name="title"
-                  value={expenseState.title}
+                  id="content"
+                  name="content"
+                  value={expenseState.content}
                   onChange={handleChangeState}
                 />
               </div>
@@ -202,6 +217,8 @@ const Form = () => {
                   onChange={handleChangeState}
                 />
               </div>
+            </div>
+            <div className={styled["form__box"]}>
               <div className={styled["form__box--date"]}>
                 <label htmlFor="date">Date</label>
                 <input
@@ -243,16 +260,16 @@ const Form = () => {
                   <button
                     type="button"
                     className={styled["form__btn"]}
-                    onClick={toggleIsFormAdd}
+                    onClick={handleSubmitAdd}
                   >
-                    Cancel
+                    추가하기
                   </button>
                   <button
                     type="button"
                     className={styled["form__btn"]}
-                    onClick={handleSubmitAdd}
+                    onClick={toggleIsFormAdd}
                   >
-                    Add Expense
+                    닫기
                   </button>
                 </>
               )}
@@ -266,7 +283,7 @@ const Form = () => {
             className={`${styled["form__btn"]} ${styled["form__btn--open-form"]}`}
             onClick={toggleIsFormAdd}
           >
-            Add New Expense
+            새 거래 내역을 추가하세요
           </button>
         </>
       )}
@@ -276,7 +293,7 @@ const Form = () => {
 
 Form.propTypes = {
   item: PropTypes.arrayOf(PropTypes.object),
-	setExpenseState: PropTypes.func
+  setExpenseState: PropTypes.func,
 };
 
 export default Form;
