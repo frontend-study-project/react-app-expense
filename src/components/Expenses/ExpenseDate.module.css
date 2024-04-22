@@ -1,5 +1,6 @@
 .expense-date {
+    margin: 1em 0 .5em;
     display: flex;
-    gap: 5px;
-    color: #fff;
+    gap: .3em;
+    font-weight: 500;
 }

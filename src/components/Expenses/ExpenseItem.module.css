@@ -1,88 +1,57 @@
 .expense-item {
     position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem 0.8rem;
-    margin: 1rem 0.5rem;
-    background-color: #4b4b4b;
+    margin: .5rem;
+    background-color: #F6F6F7;
+    transition: transform .3s;
+    border-radius: 7px;
+    cursor: pointer;
 }
 .expense-item:hover,
 .expense-item:focus {
-    scale: 1.01;
+    /* transform: scale(1.01) */
 }
-
+.expense-item.on{
+    transform: translateX(-10%);
+}
 .expense-item__description {
     display: flex;
-    flex-direction: column;
-    flex: 1;
-}
+    align-items: center;
+    justify-content: space-between;
 
-.expense-item h2,
-.expense-item p {
-    font-size: 1.2rem;
-    flex: 1;
-    margin: 0;
-    color: white;
 }
-.expense-item h2 {
-    margin: 5px 0;
-}
-.expense-item p {
-    font-size: 0.6rem;
-    background: #4826b9;
+.expense-item p{
     display: inline-block;
-    padding: 2px 7px;
-    border-radius: 3px;
-}
-
-.expense-item button[type="button"] {
-    cursor: pointer;
-}
-
-.expense-item__price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #a892ee;
-}
-
-.expense-item__btn-edit {
-    position: absolute;
-    bottom: 1.2rem;
-    right: 1rem;
-    color: #c3b4f3;
-    border: 1px solid #c3b4f3;
     padding: 5px;
-    cursor: pointer;
-    background-color: transparent;
+    border-radius: 7px;
+    background-color: #EAE9EB;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4F86A2;
 }
-.expense-item__btn-edit:hover,
-.expense-item__btn-edit:focus {
-    background-color: #4826b9;
-    border-color: #4826b9;
-    color: #fff;
+.expense-item h2{
+    margin: 10px 0 5px;
+    font-weight: 500;
 }
-
-.expense-item__btn-delete {
+.expense-item__price{
+    padding-right: 1em;
+    font-size: 16px;
+    color: #6a9e85;
+}
+.expense-item__price.outcome {
+    color: orangered;
+}
+.expense-item__btn{
     position: absolute;
-    right: 1.5rem;
-    top: 1.2rem;
-    font-size: 0;
-    border: none;
-    background-color: transparent;
-}
-.expense-item__btn-delete::before,
-.expense-item__btn-delete::after {
-    position: absolute;
-    content: "";
-    display: block;
-    width: 15px;
-    height: 1px;
-    background-color: #fff;
-}
-.expense-item__btn-delete::before{
-    transform: rotate(45deg);
-}
-.expense-item__btn-delete::after{
-    transform: rotate(-45deg);
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 70px;
+    height: 100%;
+    border: 1px solid orangered;
+    /* opacity: 0;
+    pointer-events: none; */
 }
