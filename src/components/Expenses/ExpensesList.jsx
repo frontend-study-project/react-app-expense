@@ -48,12 +48,7 @@ const ExpensesList = () => {
                     {expenseList.map((expense) => (
                       <ExpenseItem
                         key={expense.id}
-                        id={expense.id}
-                        type={expense.type}
-                        category={expense.category}
-                        title={expense.title}
-                        amount={expense.amount}
-                        date={expense.date}
+                        expense={expense}
                       />
                     ))}
                   </div>
