@@ -6,9 +6,9 @@ const ExpenseDate = (props) => {
   const day = props.date.getDate();
   return (
     <div className={styles["expense-date"]}>
-      <span className={styles["expense-date__year"]}>{year}년</span>
-      <span className={styles["expense-date__month"]}>{month}월</span>
-      <span className={styles["expense-date__day"]}>{day}일</span>
+      <span className={styles["expense-date__year"]}>{year}.</span>
+      <span className={styles["expense-date__month"]}>{month}.</span>
+      <span className={styles["expense-date__day"]}>{day}.</span>
     </div>
   );
 };
