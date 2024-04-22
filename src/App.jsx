@@ -7,9 +7,10 @@ import AnnualIncomeExpenseChart from "./components/charts/AnnualIncomeExpenseCha
 function App() {
   return (
     <div className="components-container">
+      <h1>HOUSEHOLD LEDGER</h1>
       {/* <AnnualIncomeExpenseChart /> */}
-      <Expenses />
       <Form />
+      <Expenses />
     </div>
   );
 }
