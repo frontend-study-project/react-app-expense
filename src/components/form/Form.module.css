@@ -1,4 +1,4 @@
-.form__container{
+.form__container {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,7 +7,7 @@
   z-index: 100;
   background-color: #000000c8;
 }
-.form__container .form{
+.form__container .form {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -16,34 +16,35 @@
   width: 45rem;
   max-width: 90%;
   padding: 2em 1em;
-  background-color: #EEEEF0;
+  background-color: #eeeef0;
   border-radius: 7px;
 }
-.form h2{
+.form h2 {
   padding-bottom: 1em;
   font-size: 1.15em;
   font-weight: 500;
   text-align: center;
 }
-.form__btn{
+.form__btn {
   border-radius: 7px;
 }
 .form__btn--open-form {
   width: 100%;
-  padding: 1em 0; 
-  background-color: #EAE9EB;
-  border: 1px dotted #4F86A2;
+  padding: 1em 0;
+  background-color: #4f86a210;
+  border: 2px dotted #4f86a2;
   border-radius: 7px;
-  color: #4F86A2;
+  font-weight: 500;
+  color: #4f86a2;
 }
 
 .form__btn--open-form::before {
-  content: "";
+  content: '';
   display: block;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   margin: 0 auto 12px;
-  border: 1px solid #4F86A2;
+  border: 1px solid #4f86a2;
   border-radius: 50%;
   background: no-repeat center;
   background-image: url("data:image/svg+xml,%3Csvg width='22' height='22' viewBox='0 0 22 22' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 11L20.9896 11.6448' stroke='%230F6E97' stroke-linecap='round'/%3E%3Cpath d='M11 1L11 21' stroke='%230F6E97' stroke-linecap='round'/%3E%3C/svg%3E%0A");
@@ -59,16 +60,17 @@
   margin-bottom: 5px;
 }
 
-.form__box input, .form__box select{
+.form__box input,
+.form__box select {
   width: 100%;
   height: 2.5em;
   padding: 0 0.5em;
-  background-color: #E8E8EB;
-  border: 1px solid #D5D7D9;
+  background-color: #e8e8eb;
+  border: 1px solid #d5d7d9;
   border-radius: 8px;
 }
 
-.form__box select{
+.form__box select {
   width: auto;
   flex-grow: 1;
 }
@@ -90,59 +92,60 @@
 
 .form__box--type label {
   width: 100%;
-  padding: .7em 0;
-  border: 1px solid #DBDCDF;
-  background-color: #FCFCFC;
+  padding: 0.7em 0;
+  border: 1px solid #dbdcdf;
+  background-color: #fcfcfc;
   border-radius: 7px;
   text-align: center;
   color: #999;
   cursor: pointer;
 }
 
-.form__box--type input:checked+label {
+.form__box--type input:checked + label {
   background-color: #74a3ba;
   color: #fff;
 }
 
-.form__btn-submit, .form__btn-cancle{
+.form__btn-submit,
+.form__btn-cancle {
   width: 100%;
-  padding: .7em 0;
-  border: 1px solid #DBDCDF;
-  background-color: #FCFCFC;
+  padding: 0.7em 0;
+  border: 1px solid #dbdcdf;
+  background-color: #fcfcfc;
   border-radius: 7px;
   text-align: center;
   color: #999;
 }
-.form__btn-submit{
+.form__btn-submit {
   margin-top: 3em;
   margin-bottom: 5px;
-  background-color: #0D6E98;
+  background-color: #0d6e98;
   color: #fff;
 }
 
-.form__category--box{
+.form__category--box {
   display: flex;
 }
-.form__btn--category{
+.form__btn--category {
   margin-left: 3px;
   flex-basis: 50px;
-  border: 1px solid #DBDCDF;
+  border: 1px solid #dbdcdf;
   border-radius: 7px;
   text-align: center;
   background-color: #74a3ba;
   color: #fff;
 }
 .form__btn--add-category,
- .form__btn--cancle-category{
+.form__btn--cancle-category {
   margin-left: 3px;
   flex-basis: 60px;
-  border: 1px solid #DBDCDF;
+  border: 1px solid #dbdcdf;
   border-radius: 7px;
   text-align: center;
   background-color: #74a3ba;
   color: #fff;
 }
-.form__btn--cancle-category{
-  background-color: #FCFCFC;
+.form__btn--cancle-category {
+  background-color: #fcfcfc;
   color: #999;
 }

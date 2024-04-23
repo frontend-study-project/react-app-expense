@@ -1,8 +1,8 @@
-import styled from "./Form.module.css";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsFormAdd } from "../../store/form";
-import AddForm from "./AddForm";
+import styled from './Form.module.css';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsFormAdd } from '../../store/form';
+import AddForm from './AddForm';
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Form = () => {
         <>
           <button
             type="button"
-            className={`${styled["form__btn"]} ${styled["form__btn--open-form"]}`}
+            className={`${styled['form__btn']} ${styled['form__btn--open-form']}`}
             onClick={toggleIsFormAdd}
           >
             새 거래 내역을 추가하세요
