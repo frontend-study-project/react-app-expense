@@ -13,7 +13,6 @@ const ExpensesList = () => {
   const [sortedItems, setSortedItems] = useState([]);
   const searchItems = (serchValue) => {
     setSearchInput(serchValue);
-    console.log(serchValue);
   };
 
   useEffect(() => {
@@ -33,12 +32,16 @@ const ExpensesList = () => {
   return (
     <>
       {items.dataCheckMessage ? (
-        <p style={{ color: '#ffffff' }}>{items.dataCheckMessage}</p>
+        <p className={styles['expense-search__result-txt']}>
+          {items.dataCheckMessage}
+        </p>
       ) : (
         <>
           <Search searchItems={searchItems} />
           {items.searchResultMessage ? (
-            <p style={{ color: '#ffffff' }}>{items.searchResultMessage}</p>
+            <p className={styles['expense-search__result-txt']}>
+              {items.searchResultMessage}
+            </p>
           ) : (
             <>
               <ul className={styles['expenses-list']}>
@@ -46,10 +49,7 @@ const ExpensesList = () => {
                   <div key={index}>
                     <ExpenseDate date={expenseList.date} />
                     {expenseList.map((expense) => (
-                      <ExpenseItem
-                        key={expense.id}
-                        expense={expense}
-                      />
+                      <ExpenseItem key={expense.id} expense={expense} />
                     ))}
                   </div>
                 ))}
