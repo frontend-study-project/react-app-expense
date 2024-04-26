@@ -1,13 +1,13 @@
-import { createRef, useRef } from "react";
-import styled from "./Form.module.css";
-import PropTypes from "prop-types";
-import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
-import { setIsFormEdit, setExpenseState } from "../../store/form";
-import { useAddItems, useUpdateItems } from "../../hooks/useItems.js";
-import AddCategory from "./AddCategory";
+import { createRef, useRef } from 'react';
+import styled from './Form.module.css';
+import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
+import { setExpenseState } from '../../store/form';
+import { useAddItems, useUpdateItems } from '../../hooks/useItems.js';
+import AddCategory from './AddCategory';
 
-const AddForm = ({ toggleIsFormAdd }) => {
+const FormModal = ({ toggleIsFormAdd }) => {
   const dispatch = useDispatch();
   const { mutate: addItemsMutate } = useAddItems();
   const { mutate: updateItemsMutate } = useUpdateItems();
@@ -17,7 +17,6 @@ const AddForm = ({ toggleIsFormAdd }) => {
   }));
 
   const categoryRef = createRef(null);
-
   const contentRef = useRef(null);
   const amountRef = useRef(null);
   const dateRef = useRef(null);
@@ -41,23 +40,23 @@ const AddForm = ({ toggleIsFormAdd }) => {
   };
 
   const handleSubmitAdd = () => {
-    if (expenseState.category === "default" || !expenseState.category) {
-      alert("카테고리를 선택하세요!");
+    if (expenseState.category === 'default' || !expenseState.category) {
+      alert('카테고리를 선택하세요!');
       categoryRef.current.focus();
       return;
     }
     if (expenseState.content.trim().length < 1) {
-      alert("content은 최소 1글자 이상 입력해주세요!");
+      alert('content은 최소 1글자 이상 입력해주세요!');
       contentRef.current.focus();
       return;
     }
     if (expenseState.amount < 1) {
-      alert("Amount는 0보다 커야 합니다!");
+      alert('Amount는 0보다 커야 합니다!');
       amountRef.current.focus();
       return;
     }
     if (!expenseState.date) {
-      alert("날짜를 입력해 주세요!");
+      alert('날짜를 입력해 주세요!');
       dateRef.current.focus();
       return;
     }
@@ -71,50 +70,50 @@ const AddForm = ({ toggleIsFormAdd }) => {
   };
 
   return (
-    <div className={styled["form__container"]}>
-      <form id="expenseForm" className={styled["form"]}>
+    <div className={styled['form__container']}>
+      <form id="expenseForm" className={styled['form']}>
         <h2>새로운 거래</h2>
-        <div className={styled["form__box"]}>
+        <div className={styled['form__box']}>
           <strong id="typecontent">거래구분</strong>
 
           <div
-            className={styled["form__box--type"]}
+            className={styled['form__box--type']}
             role="radiogroup"
             aria-labelledby="typecontent"
           >
-            <div className={styled["form__box--type-inner"]}>
+            <div className={styled['form__box--type-inner']}>
               <input
                 type="radio"
                 id="income"
                 name="type"
                 value="income"
                 onChange={handleChangeState}
-                checked={expenseState.type === "income"}
+                checked={expenseState.type === 'income'}
               />
               <label htmlFor="income">수입</label>
             </div>
-            <div className={styled["form__box--type-inner"]}>
+            <div className={styled['form__box--type-inner']}>
               <input
                 type="radio"
                 id="outcome"
                 name="type"
                 value="outcome"
                 onChange={handleChangeState}
-                checked={expenseState.type === "outcome"}
+                checked={expenseState.type === 'outcome'}
               />
               <label htmlFor="outcome">지출</label>
             </div>
           </div>
         </div>
-        <div className={styled["form__box"]}>
+        <div className={styled['form__box']}>
           <AddCategory
             ref={categoryRef}
             category={expenseState.category}
             handleChangeState={handleChangeState}
           />
         </div>
-        <div className={styled["form__box"]}>
-          <div className={styled["form__box--content"]}>
+        <div className={styled['form__box']}>
+          <div className={styled['form__box--content']}>
             <label htmlFor="content">내용</label>
             <input
               ref={contentRef}
@@ -128,8 +127,8 @@ const AddForm = ({ toggleIsFormAdd }) => {
           </div>
         </div>
 
-        <div className={styled["form__box"]}>
-          <div className={styled["form__box--amount"]}>
+        <div className={styled['form__box']}>
+          <div className={styled['form__box--amount']}>
             <label htmlFor="amount">금액</label>
             <input
               ref={amountRef}
@@ -141,8 +140,8 @@ const AddForm = ({ toggleIsFormAdd }) => {
             />
           </div>
         </div>
-        <div className={styled["form__box"]}>
-          <div className={styled["form__box--date"]}>
+        <div className={styled['form__box']}>
+          <div className={styled['form__box--date']}>
             <label htmlFor="date">날짜</label>
             <input
               ref={dateRef}
@@ -155,23 +154,23 @@ const AddForm = ({ toggleIsFormAdd }) => {
           </div>
         </div>
         <div
-          className={`${styled["form__box"]} ${styled["form__box--submit"]}`}
+          className={`${styled['form__box']} ${styled['form__box--submit']}`}
         >
           {isFormEdit ? (
             <>
               <button
                 type="button"
-                className={`${styled["form__btn"]} ${styled["form__btn-submit"]}`}
+                className={`${styled['form__btn']} ${styled['form__btn-submit']}`}
                 onClick={handleSubmitEdit}
               >
                 수정하기
               </button>
               <button
                 type="button"
-                className={`${styled["form__btn"]} ${styled["form__btn-cancle"]}`}
+                className={`${styled['form__btn']} ${styled['form__btn-cancle']}`}
                 // onclick할떄는 함수를 전달해줘야함 -> 당장 호출하는게 아니라 특정 이벤트가 발생했을 때 호출되어야 하기 떄문
                 onClick={() => {
-                  dispatch(setIsFormEdit(false));
+                  // dispatch(setIsFormEdit(false));
                   // dispatch(setExpenseState(initialState))
                 }}
               >
@@ -182,14 +181,14 @@ const AddForm = ({ toggleIsFormAdd }) => {
             <>
               <button
                 type="button"
-                className={`${styled["form__btn"]} ${styled["form__btn-submit"]}`}
+                className={`${styled['form__btn']} ${styled['form__btn-submit']}`}
                 onClick={handleSubmitAdd}
               >
                 추가하기
               </button>
               <button
                 type="button"
-                className={`${styled["form__btn"]} ${styled["form__btn-cancle"]}`}
+                className={`${styled['form__btn']} ${styled['form__btn-cancle']}`}
                 onClick={toggleIsFormAdd}
               >
                 닫기
@@ -202,8 +201,8 @@ const AddForm = ({ toggleIsFormAdd }) => {
   );
 };
 
-AddForm.propTypes = {
+FormModal.propTypes = {
   toggleIsFormAdd: PropTypes.func,
 };
 
-export default AddForm;
+export default FormModal;

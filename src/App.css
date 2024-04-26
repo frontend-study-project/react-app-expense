@@ -6,6 +6,7 @@
   border-radius: 7px;
   padding: 50px 20px;
   background-color: #e9eff4;
+  overflow: hidden;
 }
 .components-container h1 {
   margin-bottom: 1em;
