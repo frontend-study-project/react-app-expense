@@ -12,10 +12,9 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 45rem;
-  width: 45rem;
-  max-width: 90%;
-  padding: 2em 1em;
+  width: 50%;
+  max-width: 500px;
+  padding: 2em 2em;
   background-color: #eeeef0;
   border-radius: 7px;
 }
@@ -88,6 +87,7 @@
 .form__box--type input {
   position: absolute;
   z-index: -2;
+  width: 0;
 }
 
 .form__box--type label {
