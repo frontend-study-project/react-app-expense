@@ -1,0 +1,103 @@
+.form__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: #000000c8;
+}
+.form__container .form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 500px;
+  padding: 2em 2em;
+  background-color: #eeeef0;
+  border-radius: 7px;
+}
+.form h2 {
+  padding-bottom: 1em;
+  font-size: 1.15em;
+  font-weight: 500;
+  text-align: center;
+}
+.form__btn {
+  border-radius: 7px;
+}
+
+.form__box {
+  margin-bottom: 1em;
+}
+
+.form__box strong,
+.form__box label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form__box input,
+.form__box select {
+  width: 100%;
+  height: 2.5em;
+  padding: 0 0.5em;
+  background-color: #e8e8eb;
+  border: 1px solid #d5d7d9;
+  border-radius: 8px;
+}
+
+.form__box select {
+  width: auto;
+  flex-grow: 1;
+}
+
+.form__box--type {
+  display: flex;
+  gap: 3px;
+}
+
+.form__box--type-inner {
+  position: relative;
+  width: 50%;
+}
+
+.form__box--type input {
+  position: absolute;
+  z-index: -2;
+  width: 0;
+}
+
+.form__box--type label {
+  width: 100%;
+  padding: 0.7em 0;
+  border: 1px solid #dbdcdf;
+  background-color: #fcfcfc;
+  border-radius: 7px;
+  text-align: center;
+  color: #999;
+  cursor: pointer;
+}
+
+.form__box--type input:checked + label {
+  background-color: #74a3ba;
+  color: #fff;
+}
+
+.form__btn-submit,
+.form__btn-cancle {
+  width: 100%;
+  padding: 0.7em 0;
+  border: 1px solid #dbdcdf;
+  background-color: #fcfcfc;
+  border-radius: 7px;
+  text-align: center;
+  color: #999;
+}
+.form__btn-submit {
+  margin-top: 3em;
+  margin-bottom: 5px;
+  background-color: #0d6e98;
+  color: #fff;
+}

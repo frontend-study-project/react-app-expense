@@ -1,5 +1,5 @@
 import { createRef, useRef } from 'react';
-import styled from './Form.module.css';
+import styled from './FormModal.module.css';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
