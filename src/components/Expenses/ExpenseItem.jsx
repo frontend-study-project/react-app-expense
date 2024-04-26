@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import styles from './ExpenseItem.module.css';
 import { useDeleteItems } from '../../hooks/useItems.js';
-import { useDispatch } from 'react-redux';
-import { setExpenseState } from '../../store/form';
+import { useDispatch, useSelector } from 'react-redux';
+import { setExpenseState, setModalState } from '../../store/form';
 import { getDate } from '../../utils/getDate';
 const ExpenseItem = ({ expense }) => {
   const { mutate: deleteItemsMutate } = useDeleteItems();
@@ -10,7 +10,12 @@ const ExpenseItem = ({ expense }) => {
   const handleDeleteItem = (itemId) => {
     deleteItemsMutate(itemId);
   };
-
+  const { visibleModal, isFormEdit } = useSelector(
+    ({ form: { modalState } }) => ({
+      visibleModal: modalState.visibleModal,
+      isFormEdit: modalState.isFormEdit,
+    })
+  );
   const handleEdit = () => {
     const fields = ['type', 'category', 'content', 'amount'];
     fields.forEach((field) => {
@@ -35,10 +40,12 @@ const ExpenseItem = ({ expense }) => {
       })
     );
 
-    // dispatch(setIsFormAdd(true));
-    // dispatch(setIsFormEdit(true, expense.id));
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    dispatch(
+      setModalState({
+        visibleModal: !visibleModal,
+        isFormEdit: !isFormEdit,
+      })
+    );
   };
 
   const moveLeftHandler = (e) => {

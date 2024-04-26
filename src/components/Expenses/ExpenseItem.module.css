@@ -42,7 +42,7 @@
   color: #6a9e85;
 }
 .expense-item__price.outcome {
-  color: orangered;
+  color: #e24912;
 }
 .expense-item__btn {
   position: absolute;
@@ -55,7 +55,11 @@
   gap: 5px;
   width: 70px;
   height: 100%;
-  border: 1px solid orangered;
-  /* opacity: 0;
-    pointer-events: none; */
+}
+
+.expense-item__btn-edit {
+  color: #6a9e85;
+}
+.expense-item__btn-delete {
+  color: #e24912;
 }

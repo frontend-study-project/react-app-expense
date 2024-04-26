@@ -84,7 +84,7 @@ const FormModal = () => {
     dispatch(
       setModalState({
         visibleModal: !visibleModal,
-        isFormAdd: !isFormAdd,
+        isFormEdit: !isFormEdit,
       })
     );
   };
@@ -97,7 +97,8 @@ const FormModal = () => {
   return (
     <div className={styled['form__container']}>
       <form id="expenseForm" className={styled['form']}>
-        <h2>새로운 거래</h2>
+        {isFormAdd && <h2>새로운 거래</h2>}
+        {isFormEdit && <h2>거래 수정</h2>}
         <div className={styled['form__box']}>
           <strong id="typecontent">거래구분</strong>
 
@@ -194,10 +195,7 @@ const FormModal = () => {
                 type="button"
                 className={`${styled['form__btn']} ${styled['form__btn-cancle']}`}
                 // onclick할떄는 함수를 전달해줘야함 -> 당장 호출하는게 아니라 특정 이벤트가 발생했을 때 호출되어야 하기 떄문
-                onClick={() => {
-                  // dispatch(setIsFormEdit(false));
-                  // dispatch(setExpenseState(initialState))
-                }}
+                onClick={toggleFormModalEdit}
               >
                 닫기
               </button>
