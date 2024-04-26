@@ -6,10 +6,10 @@ import FormModal from './FormModal';
 
 const Form = () => {
   const dispatch = useDispatch();
-  const { visibleModal, isFormModalAdd } = useSelector(
+  const { visibleModal, isFormAdd } = useSelector(
     ({ form: { modalState } }) => ({
       visibleModal: modalState.visibleModal,
-      isFormModalAdd: modalState.isFormAdd,
+      isFormAdd: modalState.isFormAdd,
     })
   );
 
@@ -17,7 +17,7 @@ const Form = () => {
     dispatch(
       setModalState({
         visibleModal: !visibleModal,
-        isFormModalAdd: !isFormModalAdd,
+        isFormAdd: !isFormAdd,
       })
     );
 
@@ -32,7 +32,7 @@ const Form = () => {
           새 거래 내역을 추가하세요
         </button>
       </div>
-      {visibleModal && <FormModal isFormModalAdd={isFormModalAdd} />}
+      {visibleModal && <FormModal isFormAdd={isFormAdd} />}
     </>
   );
 };

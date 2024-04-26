@@ -3,18 +3,24 @@ import styled from './Form.module.css';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { setExpenseState } from '../../store/form';
+import { setExpenseState, setModalState } from '../../store/form';
 import { useAddItems, useUpdateItems } from '../../hooks/useItems.js';
 import AddCategory from './AddCategory';
 
-const FormModal = ({ toggleIsFormAdd }) => {
+const FormModal = () => {
   const dispatch = useDispatch();
   const { mutate: addItemsMutate } = useAddItems();
   const { mutate: updateItemsMutate } = useUpdateItems();
-  const { isFormEdit, expenseState } = useSelector(({ form }) => ({
-    isFormEdit: form.isFormEdit,
+  const { expenseState } = useSelector(({ form }) => ({
     expenseState: form.expenseState,
   }));
+  const { visibleModal, isFormAdd, isFormEdit } = useSelector(
+    ({ form: { modalState } }) => ({
+      visibleModal: modalState.visibleModal,
+      isFormAdd: modalState.isFormAdd,
+      isFormEdit: modalState.isFormEdit,
+    })
+  );
 
   const categoryRef = createRef(null);
   const contentRef = useRef(null);
@@ -37,6 +43,15 @@ const FormModal = ({ toggleIsFormAdd }) => {
     content: expenseState.content,
     amount: Number(expenseState.amount),
     date: new Date(expenseState.date),
+  };
+
+  const toggleFormModalAdd = () => {
+    dispatch(
+      setModalState({
+        visibleModal: !visibleModal,
+        isFormAdd: !isFormAdd,
+      })
+    );
   };
 
   const handleSubmitAdd = () => {
@@ -62,11 +77,21 @@ const FormModal = ({ toggleIsFormAdd }) => {
     }
 
     addItemsMutate(newItem);
-    toggleIsFormAdd();
+    toggleFormModalAdd();
   };
+
+  const toggleFormModalEdit = () => {
+    dispatch(
+      setModalState({
+        visibleModal: !visibleModal,
+        isFormAdd: !isFormAdd,
+      })
+    );
+  };
+
   const handleSubmitEdit = () => {
     updateItemsMutate(expenseState);
-    toggleIsFormAdd();
+    toggleFormModalEdit();
   };
 
   return (
@@ -189,7 +214,7 @@ const FormModal = ({ toggleIsFormAdd }) => {
               <button
                 type="button"
                 className={`${styled['form__btn']} ${styled['form__btn-cancle']}`}
-                onClick={toggleIsFormAdd}
+                onClick={toggleFormModalAdd}
               >
                 닫기
               </button>
@@ -202,7 +227,7 @@ const FormModal = ({ toggleIsFormAdd }) => {
 };
 
 FormModal.propTypes = {
-  toggleIsFormAdd: PropTypes.func,
+  isFormAdd: PropTypes.func,
 };
 
 export default FormModal;
