@@ -1,57 +1,65 @@
 .expense-item {
-    position: relative;
-    padding: 1rem 0.8rem;
-    margin: .5rem;
-    background-color: #F6F6F7;
-    transition: transform .3s;
-    border-radius: 7px;
-    cursor: pointer;
-}
-.expense-item:hover,
-.expense-item:focus {
-    /* transform: scale(1.01) */
-}
-.expense-item.on{
-    transform: translateX(-10%);
-}
-.expense-item__description {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  position: relative;
 
+  cursor: pointer;
 }
-.expense-item p{
-    display: inline-block;
-    padding: 5px;
-    border-radius: 7px;
-    background-color: #EAE9EB;
-    font-size: 12px;
-    font-weight: 600;
-    color: #4F86A2;
+
+.expense-item.on {
+  transform: translateX(-10%);
 }
-.expense-item h2{
-    margin: 10px 0 5px;
-    font-weight: 500;
+
+.expense-item__description {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  padding: 1.2rem;
+  margin: 0.5rem 0;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  transition: transform 0.3s;
 }
-.expense-item__price{
-    padding-right: 1em;
-    font-size: 16px;
-    color: #6a9e85;
+.expense-item__description * {
+  pointer-events: none;
+}
+.expense-item p {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 7px;
+  background-color: #eae9eb;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4f86a2;
+}
+.expense-item h2 {
+  margin: 10px 0 5px;
+  font-weight: 500;
+}
+.expense-item__price {
+  padding-right: 1em;
+  font-size: 16px;
+  color: #6a9e85;
 }
 .expense-item__price.outcome {
-    color: orangered;
+  color: #e24912;
 }
-.expense-item__btn{
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
-    width: 70px;
-    height: 100%;
-    border: 1px solid orangered;
-    /* opacity: 0;
-    pointer-events: none; */
+.expense-item__btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 70px;
+  height: 100%;
+}
+
+.expense-item__btn-edit {
+  color: #6a9e85;
+}
+.expense-item__btn-delete {
+  color: #e24912;
 }

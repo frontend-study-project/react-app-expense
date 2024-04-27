@@ -1,0 +1,26 @@
+.form__category--box {
+  display: flex;
+}
+.form__btn--category {
+  margin-left: 3px;
+  flex-basis: 50px;
+  border: 1px solid #dbdcdf;
+  border-radius: 7px;
+  text-align: center;
+  background-color: #74a3ba;
+  color: #fff;
+}
+.form__btn--add-category,
+.form__btn--cancle-category {
+  margin-left: 3px;
+  flex-basis: 60px;
+  border: 1px solid #dbdcdf;
+  border-radius: 7px;
+  text-align: center;
+  background-color: #74a3ba;
+  color: #fff;
+}
+.form__btn--cancle-category {
+  background-color: #fcfcfc;
+  color: #999;
+}

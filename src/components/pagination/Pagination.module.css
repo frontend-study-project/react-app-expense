@@ -1,38 +1,38 @@
 .pagination {
-    text-align: center;
+  text-align: center;
 }
 .pagination__number {
-    display: inline-block;
-    vertical-align: middle;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    background-color: #fff;
-    cursor: pointer;
-    border: 1px solid #4b4b4b;
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+  border-radius: 50%;
+  box-sizing: border-box;
 }
 .pagination__number-active {
-    background-color: #380f5f;
-    color: #fff;
+  background-color: #0d6e98;
+  color: #fff;
 }
 .pagination__prev,
 .pagination__next {
-    color: #fff;
-    vertical-align: middle;
-    cursor: pointer;
+  color: #fff;
+  vertical-align: middle;
+  cursor: pointer;
 }
 .pagination__prev {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 .pagination__next {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 .pagination__current {
-    display: inline-block;
-    color: #fff;
-    font-size: 12px;
-    margin-top: 10px;
+  display: inline-block;
+  color: #fff;
+  font-size: 12px;
+  margin-top: 10px;
 }
 .pagination__prev-grey {
-    color: #4b4b4b;
+  color: #4b4b4b;
 }

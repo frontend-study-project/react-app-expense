@@ -9,19 +9,28 @@ const initialExpenseState = {
   date: getDate(new Date()),
 };
 const initialState = {
-  isFormAdd: false,
-  isFormEdit: false,
+  modalState: {
+    isFormAdd: false,
+    isFormEdit: false,
+    visibleModal: false,
+  },
   expenseState: initialExpenseState,
 };
 
 const reducers = {
-  setIsFormAdd(state, { payload: isFormAdd }) {
-    state.isFormAdd = isFormAdd;
+  setModalState(state, { payload: modalState }) {
+    state.modalState = {
+      ...state.modalState,
+      ...modalState,
+    };
   },
+  // setIsFormAdd(state, { payload: isFormAdd }) {
+  //   state.isFormAdd = isFormAdd;
+  // },
 
-  setIsFormEdit(state, { payload: isFormEdit }) {
-    state.isFormEdit = isFormEdit;
-  },
+  // setIsFormEdit(state, { payload: isFormEdit }) {
+  //   state.isFormEdit = isFormEdit;
+  // },
 
   setExpenseState(state, { payload: expenseState }) {
     state.expenseState = {
@@ -41,11 +50,7 @@ export const formSlice = createSlice({
   reducers,
 });
 
-export const {
-  setIsFormAdd,
-  setIsFormEdit,
-  setExpenseState,
-  resetExpenseState,
-} = formSlice.actions;
+export const { setModalState, setExpenseState, resetExpenseState } =
+  formSlice.actions;
 
 export default formSlice.reducer;
